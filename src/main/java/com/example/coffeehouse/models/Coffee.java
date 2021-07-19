@@ -7,15 +7,13 @@ import javax.persistence.Id;
 public class Coffee {
     @Id
     private int id;
-    private int clientId;
     private String name;
 
     public Coffee() {
     }
 
-    public Coffee(int id, int clientId, String name) {
+    public Coffee(int id, String name) {
         this.id = id;
-        this.clientId = clientId;
         this.name = name;
     }
 
@@ -25,14 +23,6 @@ public class Coffee {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getClientId() {
-        return clientId;
-    }
-
-    public void setClientId(int clientId) {
-        this.clientId = clientId;
     }
 
     public String getName() {

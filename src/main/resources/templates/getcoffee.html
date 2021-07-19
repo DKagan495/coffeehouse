@@ -1,10 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Coffee getting</title>
 </head>
 <body>
-
+    <form method="post" th:object="${coffeedto}">
+        <select name="Select coffee" th:field="*{name}">
+            <div th:each="coffee : ${coffeelist}">
+            <option th:value="${coffee.getName}" th:text="${coffee.getName}">coffee</option>
+            </div>
+        </select>
+        <select name="Select arabica" th:field="*{arabica}">
+            <div th:each="arabica : ${arabicalist}">
+                <option th:value="${arabica.getName}" th:text="${arabica.getName}">arabica</option>
+            </div>
+        </select>
+        <select name="Select a cup" th:field="*{cupkind}">
+            <div th:each="cupcoefficients : ${cupcoefficientslist}">
+                <option th:value="${cupcoefficients.getKind}" th:text="${cupcoefficients.getKind}">cupkind</option>
+            </div>
+        </select>
+        <input type="submit" value="Get">
+    </form>
 </body>
 </html>

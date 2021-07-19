@@ -1,5 +1,8 @@
 package com.example.coffeehouse.services;
 
+import com.example.coffeehouse.models.Arabica;
+import com.example.coffeehouse.models.Coffee;
+import com.example.coffeehouse.models.converters.CoffeeCosts;
 import com.example.coffeehouse.models.converters.CupCoefficients;
 import com.example.coffeehouse.repositories.ArabicaRepository;
 import com.example.coffeehouse.repositories.CoffeeCostsRepository;
@@ -8,6 +11,8 @@ import com.example.coffeehouse.repositories.CupCoefficientsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class CoffeeService {
@@ -27,7 +32,23 @@ public class CoffeeService {
     public float getCostWithoutEmployeesRank(int coffeeId, String arabicaName, String cupKind){
         float coffeeCost = coffeeCostsRepository.findById(coffeeId).get().getCost();
         float arabicaCost = arabicaRepository.findByName(arabicaName).getCost();
-        float cupCoefficient = cupCoefficientsRepository.findByKind(cupKind).getCost();
+        float cupCoefficient = cupCoefficientsRepository.findByKind(cupKind).getCoefficient();
         return (coffeeCost + arabicaCost) * cupCoefficient;
+    }
+    @Transactional
+    public List<Coffee> getAllCoffies(){
+       return (List<Coffee>) coffeeRepository.findAll();
+    }
+    @Transactional
+    public List<CoffeeCosts> getAllCostsOfCoffie(){
+        return (List<CoffeeCosts>) coffeeCostsRepository.findAll();
+    }
+    @Transactional
+    public List<Arabica> getAllArabica(){
+        return (List<Arabica>) arabicaRepository.findAll();
+    }
+    @Transactional
+    public List<CupCoefficients> getAllCupCoefficients(){
+        return (List<CupCoefficients>) cupCoefficientsRepository.findAll();
     }
 }

@@ -7,14 +7,14 @@ import javax.persistence.Id;
 public class CupCoefficients {
     @Id
     private String kind;
-    private float cost;
+    private float coefficient;
 
     public CupCoefficients() {
     }
 
-    public CupCoefficients(String kind, float cost) {
+    public CupCoefficients(String kind, float coefficient) {
         this.kind = kind;
-        this.cost = cost;
+        this.coefficient = coefficient;
     }
 
     public String getKind() {
@@ -25,11 +25,11 @@ public class CupCoefficients {
         this.kind = kind;
     }
 
-    public float getCost() {
-        return cost;
+    public float getCoefficient() {
+        return coefficient;
     }
 
-    public void setCost(float cost) {
-        this.cost = cost;
+    public void setCoefficient(float coefficient) {
+        this.coefficient = coefficient;
     }
 }
