@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Clients</title>
+</head>
+<body>
+<div th:each="order : ${myorders}">
+    <p th:text="${order.getName}">order</p>
+</div>
+</body>
+</html>
