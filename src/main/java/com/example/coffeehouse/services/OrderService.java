@@ -23,7 +23,8 @@ public class OrderService {
     public void addToOrders(OrderDTO orderDTO){
         List<OrderDTO> orderList = (List<OrderDTO>) orderRepository.findAll();
         orderList.sort((o1, o2) -> o1.getId() - o2.getId());
-        orderDTO.setId(orderList.get(orderList.size()-1).getId());
+        orderDTO.setId(orderList.get(orderList.size()-1).getId()+1);
+        System.out.println("order id = " + orderDTO.getId());
         orderRepository.save(orderDTO);
     }
 
