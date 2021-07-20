@@ -9,9 +9,11 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "orders")
 public class OrderDTO {
-    //private int coffeeId;
     @Id
+    private int id;
+    private int employeesId;
     private String employeesName;
+    private String employeesSurname;
     private String name;
     private String arabica;
     private String cupkind;
@@ -26,13 +28,21 @@ public class OrderDTO {
         this.cupkind = cupkind;
     }
 
-   /* public int getCoffeeId() {
-        return coffeeId;
+    public int getId() {
+        return id;
     }
 
-    public void setCoffeeId(int coffeeId) {
-        this.coffeeId = coffeeId;
-    }*/
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getEmployeesId() {
+        return employeesId;
+    }
+
+    public void setEmployeesId(int employeesId) {
+        this.employeesId = employeesId;
+    }
 
     public String getEmployeesName() {
         return employeesName;
@@ -40,6 +50,14 @@ public class OrderDTO {
 
     public void setEmployeesName(String employeesName) {
         this.employeesName = employeesName;
+    }
+
+    public String getEmployeesSurname() {
+        return employeesSurname;
+    }
+
+    public void setEmployeesSurname(String employeesSurname) {
+        this.employeesSurname = employeesSurname;
     }
 
     public String getName() {

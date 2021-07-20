@@ -40,6 +40,8 @@ public class CoffeeController {
     public String sendToEmployee(@ModelAttribute("orderdto") OrderDTO orderDTO){
         float totalPrice = coffeeService.getCostWithoutEmployeesRank(orderDTO.getName(), orderDTO.getArabica(), orderDTO.getCupkind());
         orderDTO.setTotalPrice(totalPrice);
+        orderDTO.setEmployeesName(employeeService.getEmployee(orderDTO.getEmployeesId()).getName());
+        orderDTO.setEmployeesSurname(employeeService.getEmployee(orderDTO.getEmployeesId()).getSurname());
         orderService.addToOrders(orderDTO);
         return "redirect:/me";
     }

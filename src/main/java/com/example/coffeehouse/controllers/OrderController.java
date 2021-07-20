@@ -24,7 +24,17 @@ public class OrderController {
     }
     @GetMapping("/myorders")
     public String currentEmployeeOrders(Model model){
-        model.addAttribute("myorders", orderService.getCurrentEmployeeOrder());
+        model.addAttribute("myorders", orderService.getCurrentEmployeeOrders());
         return "myorders";
+    }
+    @GetMapping("/employees/{id}/orders")
+    public String employeeOrders(@PathVariable int id, Model model) {
+        model.addAttribute("orderlist", orderService.getEmployeeOrders(id));
+        return "orderlist";
+    }
+    @GetMapping("/orders/{id}")
+    public String employeeOrder(@PathVariable int id, Model model){
+        model.addAttribute("order", orderService.getOrder(id));
+        return "order";
     }
 }

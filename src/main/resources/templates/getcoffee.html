@@ -21,9 +21,9 @@
                 <option th:value="${cupcoefficients.getKind}" th:text="${cupcoefficients.getKind}">cupkind</option>
             </div>
         </select>
-        <select name="Select a cup" th:field="*{employeesName}">
+        <select name="Select a cup" th:field="*{employeesId}">
             <div th:each="employee : ${employees}">
-                <option th:value="${employee.getName()}" th:text="${employee.getName()}">employeesname</option>
+                <option th:value="${employee.getId()}" th:text="${employee.getName()} + ' ' + ${employee.getSurname()}">employee</option>
             </div>
         </select>
         <input type="submit" value="Get">

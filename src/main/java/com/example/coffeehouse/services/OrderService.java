@@ -1,6 +1,7 @@
 package com.example.coffeehouse.services;
 
 import com.example.coffeehouse.dto.OrderDTO;
+import com.example.coffeehouse.models.Client;
 import com.example.coffeehouse.repositories.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,9 @@ public class OrderService {
 
     @Transactional
     public void addToOrders(OrderDTO orderDTO){
+        List<OrderDTO> orderList = (List<OrderDTO>) orderRepository.findAll();
+        orderList.sort((o1, o2) -> o1.getId() - o2.getId());
+        orderDTO.setId(orderList.get(orderList.size()-1).getId());
         orderRepository.save(orderDTO);
     }
 
@@ -29,7 +33,17 @@ public class OrderService {
     }
 
     @Transactional
-    public List<OrderDTO> getCurrentEmployeeOrder(){
+    public List<OrderDTO> getCurrentEmployeeOrders(){
         return orderRepository.findByEmployeesName((String) httpSession.getAttribute("USER_NAME"));
+    }
+
+    @Transactional
+    public OrderDTO getOrder(int id){
+        return orderRepository.findById(id);
+    }
+
+    @Transactional
+    public List<OrderDTO> getEmployeeOrders(int id){
+        return orderRepository.findByEmployeesId(id);
     }
 }
