@@ -1,18 +1,45 @@
 package com.example.coffeehouse.dto;
 
-public class CoffeeDTO {
+import org.springframework.stereotype.Component;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "orders")
+public class OrderDTO {
+    //private int coffeeId;
+    @Id
+    private String employeesName;
     private String name;
     private String arabica;
     private String cupkind;
     private float totalPrice;
 
-    public CoffeeDTO() {
+    public OrderDTO() {
     }
 
-    public CoffeeDTO(String name, String arabica, String cupkind) {
+    public OrderDTO(String name, String arabica, String cupkind) {
         this.name = name;
         this.arabica = arabica;
         this.cupkind = cupkind;
+    }
+
+   /* public int getCoffeeId() {
+        return coffeeId;
+    }
+
+    public void setCoffeeId(int coffeeId) {
+        this.coffeeId = coffeeId;
+    }*/
+
+    public String getEmployeesName() {
+        return employeesName;
+    }
+
+    public void setEmployeesName(String employeesName) {
+        this.employeesName = employeesName;
     }
 
     public String getName() {

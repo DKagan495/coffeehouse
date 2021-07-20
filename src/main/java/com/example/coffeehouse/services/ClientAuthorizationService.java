@@ -26,9 +26,9 @@ public class ClientAuthorizationService {
 
     @Transactional
     public Client checkLogInParameters(String email, String password){
-        List<Client> clientList = authorizationClientCrudRepository.findByEmailAndPassword(email, password);
-        if(clientList != null)
-            return clientList.get(0);
+        Client client = authorizationClientCrudRepository.findByEmailAndPassword(email, password);
+        if(client != null)
+            return client;
         return null;
     }
 

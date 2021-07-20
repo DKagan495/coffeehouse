@@ -29,8 +29,8 @@ public class CoffeeService {
     private ArabicaRepository arabicaRepository;
 
     @Transactional
-    public float getCostWithoutEmployeesRank(int coffeeId, String arabicaName, String cupKind){
-        float coffeeCost = coffeeCostsRepository.findById(coffeeId).get().getCost();
+    public float getCostWithoutEmployeesRank(String coffeeName, String arabicaName, String cupKind){
+        float coffeeCost = coffeeRepository.findByName(coffeeName).getCost();
         float arabicaCost = arabicaRepository.findByName(arabicaName).getCost();
         float cupCoefficient = cupCoefficientsRepository.findByKind(cupKind).getCoefficient();
         return (coffeeCost + arabicaCost) * cupCoefficient;

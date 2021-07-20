@@ -5,7 +5,7 @@
     <title>Coffee getting</title>
 </head>
 <body>
-    <form method="post" th:object="${coffeedto}">
+    <form method="post" th:object="${orderdto}">
         <select name="Select coffee" th:field="*{name}">
             <div th:each="coffee : ${coffeelist}">
             <option th:value="${coffee.getName}" th:text="${coffee.getName}">coffee</option>
@@ -19,6 +19,11 @@
         <select name="Select a cup" th:field="*{cupkind}">
             <div th:each="cupcoefficients : ${cupcoefficientslist}">
                 <option th:value="${cupcoefficients.getKind}" th:text="${cupcoefficients.getKind}">cupkind</option>
+            </div>
+        </select>
+        <select name="Select a cup" th:field="*{employeesName}">
+            <div th:each="employee : ${employees}">
+                <option th:value="${employee.getName()}" th:text="${employee.getName()}">employeesname</option>
             </div>
         </select>
         <input type="submit" value="Get">

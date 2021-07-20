@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Clients</title>
+</head>
+<body>
+<h4>Our employees</h4>
+<div th:each="employee : ${employees}">
+  <a th:href="@{'/employees/' + ${employee.getId}}" th:text="${employee.getName} + ' ' + ${employee.getSurname}">employee</a>
+</div>
+</body>
+</html>

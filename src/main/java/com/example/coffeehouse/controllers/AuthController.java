@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class AuthController {
 
+    @Autowired
     private HttpSession httpSession;
     @Autowired
     private ClientAuthorizationService clientAuthorizationService;
@@ -35,7 +36,7 @@ public class AuthController {
         return "loginform";
     }
     @PostMapping("/auth")
-    public String logInMapping(@RequestParam String email, @RequestParam String password, HttpServletRequest request){
+    public String logInMapping(@RequestParam String email, @RequestParam String password){
         if(clientAuthorizationService.checkLogInParameters(email, password) != null){
             httpSession.setAttribute("USER_ID", clientAuthorizationService.checkLogInParameters(email, password).getId());
             return "redirect:/clients/" + clientAuthorizationService.checkLogInParameters(email, password).getId();

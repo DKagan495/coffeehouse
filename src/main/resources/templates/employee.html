@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Client</title>
+</head>
+<body>
+<h4>Employee`s card</h4>
+<p th:text="${employee.getName()} + ' ' + ${employee.getSurname()}">employee</p>
+<p th:text="${employee.getAge} + ' years old'">employee</p>
+<p th:text="'Rank: ' + ${employee.getRank}">employee</p>
+</body>
+</html>
