@@ -55,4 +55,8 @@ public class CoffeeService {
     public List<CupCoefficients> getAllCupCoefficients(){
         return (List<CupCoefficients>) cupCoefficientsRepository.findAll();
     }
+    @Transactional
+    public Double getArabicaCostByName(String arabicaName){
+        return coffeeRepository.getCostByArabicaName(arabicaName);
+    }
 }

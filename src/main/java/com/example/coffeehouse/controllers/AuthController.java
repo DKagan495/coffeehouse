@@ -29,6 +29,7 @@ public class AuthController {
     @GetMapping("/reg")
     public String regFormMapping(Model model){
         List<String> arabicas = coffeeService.getArabicasNames();
+        System.out.println(coffeeService.getArabicaCostByName("Kafa") + " this is cost!!!");
         for(String s: arabicas)
             System.out.println(s);
         model.addAttribute("client", new Client());
