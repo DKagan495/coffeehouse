@@ -13,5 +13,5 @@ public interface CoffeeRepository extends CrudRepository<Coffee, Integer> {
     public List<String> getAllArabica();
 
     @Query(value = "select cost from arabica where name = ?1", nativeQuery = true)
-    public Double getCostByArabicaName(String arabicaName);
+    public double getCostByArabicaName(String arabicaName);
 }

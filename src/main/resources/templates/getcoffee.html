@@ -13,7 +13,7 @@
         </select>
         <select name="Select arabica" th:field="*{arabica}">
             <div th:each="arabica : ${arabicalist}">
-                <option th:value="${arabica.getName}" th:text="${arabica.getName}">arabica</option>
+                <option th:value="${arabica}" th:text="${arabica}">arabica</option>
             </div>
         </select>
         <select name="Select a cup" th:field="*{cupkind}">

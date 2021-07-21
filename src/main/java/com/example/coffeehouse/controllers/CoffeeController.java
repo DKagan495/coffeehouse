@@ -33,13 +33,13 @@ public class CoffeeController {
         model.addAttribute("orderdto", orderDTO);
         model.addAttribute("employees", employeeService.getAllEmployees());
         model.addAttribute("coffeelist", coffeeService.getAllCoffies());
-        model.addAttribute("arabicalist", coffeeService.getAllArabica());
+        model.addAttribute("arabicalist", coffeeService.getArabicasNames());
         model.addAttribute("cupcoefficientslist", coffeeService.getAllCupCoefficients());
         return "getcoffee";
     }
     @PostMapping("/getcoffee")
     public String sendToEmployee(@ModelAttribute("orderdto") OrderDTO orderDTO){
-        float totalPrice = coffeeService.getCostWithoutEmployeesRank(orderDTO.getName(), orderDTO.getArabica(), orderDTO.getCupkind());
+        double totalPrice = coffeeService.getCostWithoutEmployeesRank(orderDTO.getName(), orderDTO.getArabica(), orderDTO.getCupkind());
         System.out.println("Session user_id = " + (int) httpSession.getAttribute("USER_ID"));
         orderDTO.setClientId((int) httpSession.getAttribute("USER_ID"));
         orderDTO.setStatus("not started");
