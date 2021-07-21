@@ -36,6 +36,10 @@ public class CoffeeService {
         return (coffeeCost + arabicaCost) * cupCoefficient;
     }
     @Transactional
+    public List<String> getArabicasNames(){
+        return coffeeRepository.getAllArabica();
+    }
+    @Transactional
     public List<Coffee> getAllCoffies(){
        return (List<Coffee>) coffeeRepository.findAll();
     }

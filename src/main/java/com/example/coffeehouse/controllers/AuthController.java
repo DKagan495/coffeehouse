@@ -2,6 +2,7 @@ package com.example.coffeehouse.controllers;
 
 import com.example.coffeehouse.models.Client;
 import com.example.coffeehouse.services.ClientAuthorizationService;
+import com.example.coffeehouse.services.CoffeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 public class AuthController {
@@ -18,11 +20,17 @@ public class AuthController {
     private HttpSession httpSession;
     @Autowired
     private ClientAuthorizationService clientAuthorizationService;
+
+    @Autowired
+    private CoffeeService coffeeService;
    /* public AuthController(ClientAuthorizationService clientAuthorizationService){
         this.clientAuthorizationService = clientAuthorizationService;
     }*/
     @GetMapping("/reg")
     public String regFormMapping(Model model){
+        List<String> arabicas = coffeeService.getArabicasNames();
+        for(String s: arabicas)
+            System.out.println(s);
         model.addAttribute("client", new Client());
         return "regform";
     }

@@ -49,4 +49,10 @@ public class EmployeeController {
         return "redirect:/orders/" + id;
     }
 
+    @GetMapping("/orders/{id}/complete")
+    public String completeOrder(@PathVariable int id){
+        orderService.setCompleteStatus(id);
+        return "redirect:/orders/" + id;
+    }
+
 }
