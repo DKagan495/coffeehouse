@@ -1,5 +1,10 @@
 package com.example.coffeehouse.controllers;
 
+import com.example.coffeehouse.dto.OrderDTO;
+import com.example.coffeehouse.models.Client;
+import com.example.coffeehouse.models.Employee;
+import com.example.coffeehouse.services.ClientService;
+import com.example.coffeehouse.services.EmployeeService;
 import com.example.coffeehouse.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,8 +22,16 @@ public class OrderController {
     @Autowired
     OrderService orderService;
 
+    @Autowired
+    EmployeeService employeeService;
+
+    @Autowired
+    ClientService clientService;
+
     @GetMapping("/orders")
     public String allOrders(Model model){
+        model.addAttribute("employees", employeeService.getAllEmployees());
+        model.addAttribute("clients", clientService.toClientList());
         model.addAttribute("orderlist", orderService.getAllOrders());
         return "orderlist";
     }
@@ -34,6 +47,11 @@ public class OrderController {
     }
     @GetMapping("/orders/{id}")
     public String employeeOrder(@PathVariable int id, Model model){
+        System.out.println(orderService.getOrder(id).getClientId() + "clientsId");
+        Client client = clientService.toClientPage(orderService.getOrder(id).getClientId());
+        Employee employee = employeeService.getEmployee(orderService.getOrder(id).getEmployeesId());
+        model.addAttribute("client", client);
+        model.addAttribute("employee", employee);
         model.addAttribute("order", orderService.getOrder(id));
         return "order";
     }

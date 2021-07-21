@@ -20,7 +20,7 @@ public class ClientAuthorizationService {
     public void addClientToDataBase(Client client){
         List<Client> clientList = (List<Client>) authorizationClientCrudRepository.findAll();
         clientList.sort((o1, o2) -> o1.getId() - o2.getId());
-        client.setId(clientList.get(clientList.size()-1).getId());
+        client.setId(clientList.get(clientList.size()-1).getId()+1);
         authorizationClientCrudRepository.save(client);
     }
 

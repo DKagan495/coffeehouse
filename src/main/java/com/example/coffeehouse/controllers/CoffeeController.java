@@ -29,7 +29,8 @@ public class CoffeeController {
 
     @GetMapping("/getcoffee")
     public String toGetCoffeeForm(Model model){
-        model.addAttribute("orderdto", new OrderDTO());
+        OrderDTO orderDTO = new OrderDTO();
+        model.addAttribute("orderdto", orderDTO);
         model.addAttribute("employees", employeeService.getAllEmployees());
         model.addAttribute("coffeelist", coffeeService.getAllCoffies());
         model.addAttribute("arabicalist", coffeeService.getAllArabica());
@@ -39,9 +40,9 @@ public class CoffeeController {
     @PostMapping("/getcoffee")
     public String sendToEmployee(@ModelAttribute("orderdto") OrderDTO orderDTO){
         float totalPrice = coffeeService.getCostWithoutEmployeesRank(orderDTO.getName(), orderDTO.getArabica(), orderDTO.getCupkind());
+        System.out.println("Session user_id = " + (int) httpSession.getAttribute("USER_ID"));
+        orderDTO.setClientId((int) httpSession.getAttribute("USER_ID"));
         orderDTO.setTotalPrice(totalPrice);
-        orderDTO.setEmployeesName(employeeService.getEmployee(orderDTO.getEmployeesId()).getName());
-        orderDTO.setEmployeesSurname(employeeService.getEmployee(orderDTO.getEmployeesId()).getSurname());
         orderService.addToOrders(orderDTO);
         return "redirect:/me";
     }

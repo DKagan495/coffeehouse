@@ -6,11 +6,14 @@
 </head>
 <body>
     <h1>Order for employee:</h1>
-    <h1><a th:href="@{'/employees/' + ${order.getEmployeesId()}}" th:text="${order.getEmployeesName()} + ' ' + ${order.getEmployeesSurname()}"></a></h1>
-    <p>---------------------------------------------------------------------------------</p>
+    <h1><a th:href="@{'/employees/' + ${order.getEmployeesId()}}" th:text="${employee.getName()} + ' ' + ${employee.getSurname()}"></a></h1>
+    <p>---------------------------------------------------------------------</p>
+    <h1>By client:</h1>
+    <h1><a th:href="@{'/clients/' + ${order.getClientId()}}" th:text="${client.getName()} + ' ' + ${client.getSurname()}"></a></h1>
+    <p>---------------------------------------------------------------------</p>
     <h1 th:text="'Coffee: ' + ${order.getName()}"></h1>
     <h1 th:text="'Arabica: ' + ${order.getArabica()}">arabica</h1>
     <h1 th:text="'Cup size: ' + ${order.getCupkind()}">cup</h1>
-    <h1 th:text="'Total price: ' + ${order.getTotalPrice()}"></h1>
+    <h1 th:text="'Total price: ' + ${order.getTotalPrice()}">price</h1>
 </body>
 </html>

@@ -23,7 +23,10 @@ public class OrderService {
     public void addToOrders(OrderDTO orderDTO){
         List<OrderDTO> orderList = (List<OrderDTO>) orderRepository.findAll();
         orderList.sort((o1, o2) -> o1.getId() - o2.getId());
-        orderDTO.setId(orderList.get(orderList.size()-1).getId()+1);
+        if(orderList.isEmpty())
+            orderDTO.setId(0);
+        else
+            orderDTO.setId(orderList.get(orderList.size()-1).getId()+1);
         System.out.println("order id = " + orderDTO.getId());
         orderRepository.save(orderDTO);
     }
@@ -35,7 +38,7 @@ public class OrderService {
 
     @Transactional
     public List<OrderDTO> getCurrentEmployeeOrders(){
-        return orderRepository.findByEmployeesName((String) httpSession.getAttribute("USER_NAME"));
+        return orderRepository.findByEmployeesId((int) httpSession.getAttribute("USER_ID"));
     }
 
     @Transactional

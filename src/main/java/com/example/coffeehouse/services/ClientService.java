@@ -15,7 +15,7 @@ public class ClientService {
     ClientCrudRepostirory clientCrudRepostirory;
 
     public Client toClientPage(int id){
-       return clientCrudRepostirory.findById(id).get();
+       return clientCrudRepostirory.findById(id);
     }
     public List<Client> toClientList(){
         return (List<Client>) clientCrudRepostirory.findAll();

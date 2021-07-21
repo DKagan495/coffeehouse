@@ -12,8 +12,7 @@ public class OrderDTO {
     @Id
     private int id;
     private int employeesId;
-    private String employeesName;
-    private String employeesSurname;
+    private int clientId;
     private String name;
     private String arabica;
     private String cupkind;
@@ -44,20 +43,12 @@ public class OrderDTO {
         this.employeesId = employeesId;
     }
 
-    public String getEmployeesName() {
-        return employeesName;
+    public int getClientId() {
+        return clientId;
     }
 
-    public void setEmployeesName(String employeesName) {
-        this.employeesName = employeesName;
-    }
-
-    public String getEmployeesSurname() {
-        return employeesSurname;
-    }
-
-    public void setEmployeesSurname(String employeesSurname) {
-        this.employeesSurname = employeesSurname;
+    public void setClientId(int clientId) {
+        this.clientId = clientId;
     }
 
     public String getName() {
