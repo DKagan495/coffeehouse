@@ -39,6 +39,7 @@ public class AuthController {
     public String logInMapping(@RequestParam String email, @RequestParam String password){
         if(clientAuthorizationService.checkLogInParameters(email, password) != null){
             httpSession.setAttribute("USER_ID", clientAuthorizationService.checkLogInParameters(email, password).getId());
+            httpSession.setAttribute("USER_ROLE", "client");
             return "redirect:/clients/" + clientAuthorizationService.checkLogInParameters(email, password).getId();
         }
         return "redirect:/auth";

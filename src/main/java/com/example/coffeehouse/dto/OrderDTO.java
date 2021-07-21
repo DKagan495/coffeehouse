@@ -17,6 +17,7 @@ public class OrderDTO {
     private String arabica;
     private String cupkind;
     private float totalPrice;
+    private String status;
 
     public OrderDTO() {
     }
@@ -81,5 +82,13 @@ public class OrderDTO {
 
     public void setTotalPrice(float totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

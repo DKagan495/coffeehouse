@@ -27,6 +27,7 @@ public class EmployeeAuthController {
         if(employeeAuthorizationService.checkLogInParameters(login, password) != null){
             httpSession.setAttribute("USER_ID", employeeAuthorizationService.checkLogInParameters(login, password).getId());
             httpSession.setAttribute("USER_NAME", employeeAuthorizationService.checkLogInParameters(login, password).getName());
+            httpSession.setAttribute("USER_ROLE", "employee");
             return "redirect:/employees/" + employeeAuthorizationService.checkLogInParameters(login, password).getId();
         }
         return "redirect:/emplauth";

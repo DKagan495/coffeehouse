@@ -50,4 +50,18 @@ public class OrderService {
     public List<OrderDTO> getEmployeeOrders(int id){
         return orderRepository.findByEmployeesId(id);
     }
+
+    @Transactional
+    public void setInProcessStatus(int id){
+        OrderDTO orderDTO = orderRepository.findById(id);
+        orderDTO.setStatus("in process");
+        orderRepository.save(orderDTO);
+    }
+
+    @Transactional
+    public void setCompleteStatus(int id){
+        OrderDTO orderDTO = orderRepository.findById(id);
+        orderDTO.setStatus("complete");
+        orderRepository.save(orderDTO);
+    }
 }

@@ -42,6 +42,7 @@ public class CoffeeController {
         float totalPrice = coffeeService.getCostWithoutEmployeesRank(orderDTO.getName(), orderDTO.getArabica(), orderDTO.getCupkind());
         System.out.println("Session user_id = " + (int) httpSession.getAttribute("USER_ID"));
         orderDTO.setClientId((int) httpSession.getAttribute("USER_ID"));
+        orderDTO.setStatus("not started");
         orderDTO.setTotalPrice(totalPrice);
         orderService.addToOrders(orderDTO);
         return "redirect:/me";
