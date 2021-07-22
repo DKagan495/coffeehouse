@@ -15,6 +15,7 @@ public class OrderDTO {
     private String name;
     private String arabica;
     private String cupSize;
+    @Transient
     @Enumerated(EnumType.STRING)
     private CupSizes cupSizes;
     private double totalPrice;

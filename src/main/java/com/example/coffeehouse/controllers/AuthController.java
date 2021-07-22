@@ -1,6 +1,8 @@
 package com.example.coffeehouse.controllers;
 
 import com.example.coffeehouse.models.Client;
+import com.example.coffeehouse.models.Employee;
+import com.example.coffeehouse.models.converters.Rank;
 import com.example.coffeehouse.services.ClientAuthorizationService;
 import com.example.coffeehouse.services.CoffeeService;
 import org.springframework.beans.factory.annotation.Autowired;

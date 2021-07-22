@@ -18,7 +18,7 @@
         </select>
         <select name="Select a cup" th:field="*{cupSize}">
             <div th:each="cupsize : ${cupsizes}">
-                <option th:value="${cupsize.getSize}" th:text="${cupsize.getSize}">cupkind</option>
+                <option th:value="${cupsize.getSize()}" th:text="${cupsize.getSize()}">cupkind</option>
             </div>
         </select>
         <select name="Select a cup" th:field="*{employeesId}">

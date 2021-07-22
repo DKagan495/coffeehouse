@@ -2,6 +2,8 @@ package com.example.coffeehouse.services;
 
 import com.example.coffeehouse.dto.OrderDTO;
 import com.example.coffeehouse.models.Client;
+import com.example.coffeehouse.models.Employee;
+import com.example.coffeehouse.repositories.EmployeeRepository;
 import com.example.coffeehouse.repositories.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,9 @@ public class OrderService {
 
     @Autowired
     OrderRepository orderRepository;
+
+    @Autowired
+    EmployeeRepository employeeRepository;
 
     @Autowired
     HttpSession httpSession;
@@ -61,6 +66,7 @@ public class OrderService {
     @Transactional
     public void setCompleteStatus(int id){
         OrderDTO orderDTO = orderRepository.findById(id);
+        orderDTO.setTotalPrice(orderDTO.getTotalPrice() + employeeRepository.findById(orderDTO.getEmployeesId()).get().getRank().getAddition());
         orderDTO.setStatus("complete");
         orderRepository.save(orderDTO);
     }

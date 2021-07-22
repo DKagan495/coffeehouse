@@ -42,7 +42,8 @@ public class CoffeeController {
     }
     @PostMapping("/getcoffee")
     public String sendToEmployee(@ModelAttribute("orderdto") OrderDTO orderDTO){
-        double totalPrice = coffeeService.getCostWithoutEmployeesRank(orderDTO.getName(), orderDTO.getArabica(), Stream.of(orderDTO.getCupSizes()).filter(cs->cs.getSize().equals(orderDTO.getCupSize())).findFirst().orElseThrow(IllegalAccessError::new).getCost());
+        System.out.println(orderDTO.getCupSize());
+        double totalPrice = coffeeService.getCostWithoutEmployeesRank(orderDTO.getName(), orderDTO.getArabica(), Stream.of(CupSizes.values()).filter(c->c.getSize().equals(orderDTO.getCupSize())).findFirst().orElseThrow(IllegalArgumentException::new).getCost());
         System.out.println("Session user_id = " + (int) httpSession.getAttribute("USER_ID"));
         orderDTO.setClientId((int) httpSession.getAttribute("USER_ID"));
         orderDTO.setStatus("not started");

@@ -1,6 +1,10 @@
 package com.example.coffeehouse.models;
 
+import com.example.coffeehouse.models.converters.Rank;
+
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 
 @Entity
@@ -10,14 +14,15 @@ public class Employee {
     private String name;
     private String surname;
     private int age;
-    private String rank;
+    @Enumerated(EnumType.STRING)
+    private Rank rank;
     private String login;
     private String password;
 
     public Employee() {
     }
 
-    public Employee(int id, String name, String surname, int age, String rank, String login, String password) {
+    public Employee(int id, String name, String surname, int age, Rank rank, String login, String password) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -59,11 +64,11 @@ public class Employee {
         this.age = age;
     }
 
-    public String getRank() {
+    public Rank getRank() {
         return rank;
     }
 
-    public void setRank(String rank) {
+    public void setRank(Rank rank) {
         this.rank = rank;
     }
 
