@@ -1,10 +1,9 @@
 package com.example.coffeehouse.dto;
 
+import com.example.coffeehouse.models.converters.CupSizes;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "orders")
@@ -15,17 +14,19 @@ public class OrderDTO {
     private int clientId;
     private String name;
     private String arabica;
-    private String cupkind;
+    private String cupSize;
+    @Enumerated(EnumType.STRING)
+    private CupSizes cupSizes;
     private double totalPrice;
     private String status;
 
     public OrderDTO() {
     }
 
-    public OrderDTO(String name, String arabica, String cupkind) {
+    public OrderDTO(String name, String arabica, String cupSize) {
         this.name = name;
         this.arabica = arabica;
-        this.cupkind = cupkind;
+        this.cupSize = cupSize;
     }
 
     public int getId() {
@@ -68,12 +69,20 @@ public class OrderDTO {
         this.arabica = arabica;
     }
 
-    public String getCupkind() {
-        return cupkind;
+    public String getCupSize() {
+        return cupSize;
     }
 
-    public void setCupkind(String cupkind) {
-        this.cupkind = cupkind;
+    public void setCupSize(String cupSize) {
+        this.cupSize = cupSize;
+    }
+
+    public CupSizes getCupSizes() {
+        return cupSizes;
+    }
+
+    public void setCupSizes(CupSizes cupSizes) {
+        this.cupSizes = cupSizes;
     }
 
     public double getTotalPrice() {

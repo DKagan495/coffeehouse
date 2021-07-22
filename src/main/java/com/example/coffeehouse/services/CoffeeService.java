@@ -1,11 +1,9 @@
 package com.example.coffeehouse.services;
 
 import com.example.coffeehouse.models.Coffee;
-import com.example.coffeehouse.models.converters.CoffeeCosts;
 import com.example.coffeehouse.models.converters.CupCoefficients;
 import com.example.coffeehouse.repositories.CoffeeCostsRepository;
 import com.example.coffeehouse.repositories.CoffeeRepository;
-import com.example.coffeehouse.repositories.CupCoefficientsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,36 +18,24 @@ public class CoffeeService {
     @Autowired
     private CoffeeCostsRepository coffeeCostsRepository;
 
-    @Autowired
-    private CupCoefficientsRepository cupCoefficientsRepository;
-
 
     @Transactional
-    public double getCostWithoutEmployeesRank(String coffeeName, String arabicaName, String cupKind){
+    public double getCostWithoutEmployeesRank(String coffeeName, String arabicaName, double sizeCost){
         double coffeeCost = coffeeRepository.findByName(coffeeName).getCost();
         double arabicaCost = coffeeRepository.getCostByArabicaName(arabicaName);// arabicaRepository.findByName(arabicaName).getCost();
-        double cupCoefficient = cupCoefficientsRepository.findByKind(cupKind).getCoefficient();
-        return (coffeeCost + arabicaCost) * cupCoefficient;
+        return (coffeeCost + arabicaCost) * sizeCost;
     }
+
     @Transactional
     public List<String> getArabicasNames(){
         return coffeeRepository.getAllArabica();
     }
+
     @Transactional
     public List<Coffee> getAllCoffies(){
        return (List<Coffee>) coffeeRepository.findAll();
     }
 
-    @Transactional
-    public List<CoffeeCosts> getAllCostsOfCoffie(){
-        return (List<CoffeeCosts>) coffeeCostsRepository.findAll();
-    }
-
-
-    @Transactional
-    public List<CupCoefficients> getAllCupCoefficients(){
-        return (List<CupCoefficients>) cupCoefficientsRepository.findAll();
-    }
     @Transactional
     public double getArabicaCostByName(String arabicaName){
         return coffeeRepository.getCostByArabicaName(arabicaName);

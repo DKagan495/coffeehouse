@@ -16,9 +16,9 @@
                 <option th:value="${arabica}" th:text="${arabica}">arabica</option>
             </div>
         </select>
-        <select name="Select a cup" th:field="*{cupkind}">
-            <div th:each="cupcoefficients : ${cupcoefficientslist}">
-                <option th:value="${cupcoefficients.getKind}" th:text="${cupcoefficients.getKind}">cupkind</option>
+        <select name="Select a cup" th:field="*{cupSize}">
+            <div th:each="cupsize : ${cupsizes}">
+                <option th:value="${cupsize.getSize}" th:text="${cupsize.getSize}">cupkind</option>
             </div>
         </select>
         <select name="Select a cup" th:field="*{employeesId}">
