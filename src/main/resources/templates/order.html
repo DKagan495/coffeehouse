@@ -19,5 +19,7 @@
     <a th:if="${#httpSession.getAttribute('USER_ROLE')} == 'employee' and ${order.getStatus().equals('not started')}" th:href="@{'/orders/' + ${order.getId()} + '/take'}">Take Order</a>
     <a th:if="${#httpSession.getAttribute('USER_ROLE')} == 'employee' and ${order.getStatus().equals('in process')}" th:href="@{'/orders/' + ${order.getId()} + '/complete'}">Complete Order</a>
     <p th:if="${#httpSession.getAttribute('USER_ROLE')} == 'employee' and ${order.getStatus().equals('complete')}">Complete</p>
+    <a th:if="${#httpSession.getAttribute('USER_ROLE')} == 'client' and ${order.getStatus().equals('complete')} and ${client.getMoney()} >= ${order.getTotalPrice()}" th:href="@{'/orders/' + ${order.getId()} + '/get'}">Get order</a>
+    <p th:unless="${client.getMoney()} >= ${order.getTotalPrice()}" th:text = "${insfundsmsg}">nopay</p>
 </body>
 </html>

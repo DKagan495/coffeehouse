@@ -6,7 +6,7 @@
 </head>
 <body>
 <div th:each="order : ${myorders}">
-    <p th:text="${order.getName}">order</p>
+    <a th:href="@{'/orders/' + ${order.getId()}}" th:text="${order.getName}">order</a>
 </div>
 </body>
 </html>

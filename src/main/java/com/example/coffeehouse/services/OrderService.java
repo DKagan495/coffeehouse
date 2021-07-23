@@ -6,6 +6,7 @@ import com.example.coffeehouse.models.Employee;
 import com.example.coffeehouse.models.constkits.OrderStatus;
 import com.example.coffeehouse.repositories.EmployeeRepository;
 import com.example.coffeehouse.repositories.OrderRepository;
+import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,6 +49,16 @@ public class OrderService {
     }
 
     @Transactional
+    public List<OrderDTO> getCurrentClientOrders(){
+        return orderRepository.findByClientId((int) httpSession.getAttribute("USER_ID"));
+    }
+
+    @Transactional
+    public List<OrderDTO> getCurrentClientCompleteOrders(){
+        return orderRepository.findByClientIdAndStatus((int) httpSession.getAttribute("USER_ID"), OrderStatus.COMPLETE.getStatus());
+    }
+
+    @Transactional
     public OrderDTO getOrder(int id){
         return orderRepository.findById(id);
     }
@@ -69,6 +80,13 @@ public class OrderService {
         OrderDTO orderDTO = orderRepository.findById(id);
         orderDTO.setTotalPrice(orderDTO.getTotalPrice() + employeeRepository.findById(orderDTO.getEmployeesId()).get().getRank().getAddition());
         orderDTO.setStatus(OrderStatus.COMPLETE.getStatus());
+        orderRepository.save(orderDTO);
+    }
+
+    @Transactional
+    public void setTakenStatus(int id ){
+        OrderDTO orderDTO = orderRepository.findById(id);
+        orderDTO.setStatus(OrderStatus.TAKEN.getStatus());
         orderRepository.save(orderDTO);
     }
 }
