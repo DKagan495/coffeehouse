@@ -21,6 +21,10 @@ public class EmployeeAuthController {
 
     @GetMapping("/emplauth")
     public String logInFormMapping(){
+        if(httpSession.getAttribute("AUTHORIZATION_RESULT_EMPLOYEE") == AuthResult.VALID)
+            return "redirect:/mypage";
+        if(httpSession.getAttribute("AUTHORIZATION_RESULT_CLIENT") == AuthResult.VALID)
+            return "redirect:/me";
         return "loginemplform";
     }
     @PostMapping("/emplauth")

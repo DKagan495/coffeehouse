@@ -29,6 +29,8 @@ public class AuthController {
 
     @GetMapping("/reg")
     public String regFormMapping(Model model){
+        if(httpSession.getAttribute("AUTHORIZATION_RESULT_CLIENT") == AuthResult.VALID)
+            return "redirect:/me";
         List<String> arabicas = coffeeService.getArabicasNames();
         System.out.println(coffeeService.getArabicaCostByName("Kafa") + " this is cost!!!");
         for(String s: arabicas)
@@ -39,11 +41,15 @@ public class AuthController {
     @PostMapping("/reg")
     public String regMapping(@ModelAttribute Client client){
         clientAuthorizationService.addClientToDataBase(client);
-        return "redirect:/";
+        httpSession.setAttribute("USER_ID", client.getId());
+        httpSession.setAttribute("USER_ROLE", "client");
+        httpSession.setAttribute("AUTHORIZATION_RESULT_CLIENT", AuthResult.VALID);
+        return "redirect:/me";
     }
     @GetMapping("/auth")
     public String logInFormMapping(){
-        //httpSession.setAttribute("AUTHORIZATION_RESULT", AuthResult.NORESULT);
+        if(httpSession.getAttribute("AUTHORIZATION_RESULT_CLIENT") == AuthResult.VALID)
+            return "redirect:/me";
         return "loginform";
     }
     @PostMapping("/auth")

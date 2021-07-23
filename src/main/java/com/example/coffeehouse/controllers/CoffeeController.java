@@ -1,6 +1,7 @@
 package com.example.coffeehouse.controllers;
 
 import com.example.coffeehouse.dto.OrderDTO;
+import com.example.coffeehouse.models.constkits.AuthResult;
 import com.example.coffeehouse.models.constkits.CupSizes;
 import com.example.coffeehouse.services.CoffeeService;
 import com.example.coffeehouse.services.EmployeeService;
@@ -31,6 +32,8 @@ public class CoffeeController {
 
     @GetMapping("/getcoffee")
     public String toGetCoffeeForm(Model model){
+        if(httpSession.getAttribute("AUTHORIZATION_RESULT_CLIENT") == null || !httpSession.getAttribute("AUTHORIZATION_RESULT_CLIENT").equals(AuthResult.VALID))
+            return "redirect:/auth";
         OrderDTO orderDTO = new OrderDTO();
         model.addAttribute("orderdto", orderDTO);
         model.addAttribute("employees", employeeService.getAllEmployees());

@@ -16,10 +16,12 @@
     <h1 th:text="'Cup size: ' + ${order.getCupSize()}">cup</h1>
     <h1 th:text="'Total price: ' + ${order.getTotalPrice()}">price</h1>
     <h1 th:if="${#httpSession.getAttribute('USER_ROLE')} == 'client'" th:text="'Status: ' + ${order.getStatus()}">status</h1>
-    <a th:if="${#httpSession.getAttribute('USER_ROLE')} == 'employee' and ${order.getStatus().equals('not started')}" th:href="@{'/orders/' + ${order.getId()} + '/take'}">Take Order</a>
-    <a th:if="${#httpSession.getAttribute('USER_ROLE')} == 'employee' and ${order.getStatus().equals('in process')}" th:href="@{'/orders/' + ${order.getId()} + '/complete'}">Complete Order</a>
-    <p th:if="${#httpSession.getAttribute('USER_ROLE')} == 'employee' and ${order.getStatus().equals('complete')}">Complete</p>
+    <div th:if="${order.getEmployeesId()} == ${#httpSession.getAttribute('USER_ID')}">
+        <a th:if="${#httpSession.getAttribute('USER_ROLE')} == 'employee' and ${order.getStatus().equals('not started')}" th:href="@{'/orders/' + ${order.getId()} + '/take'}">Take Order</a>
+        <a th:if="${#httpSession.getAttribute('USER_ROLE')} == 'employee' and ${order.getStatus().equals('in process')}" th:href="@{'/orders/' + ${order.getId()} + '/complete'}">Complete Order</a>
+        <p th:if="${#httpSession.getAttribute('USER_ROLE')} == 'employee' and ${order.getStatus().equals('complete')}">Complete</p>
+    </div>
     <a th:if="${#httpSession.getAttribute('USER_ROLE')} == 'client' and ${order.getStatus().equals('complete')} and ${client.getMoney()} >= ${order.getTotalPrice()}" th:href="@{'/orders/' + ${order.getId()} + '/get'}">Get order</a>
-    <p th:unless="${client.getMoney()} >= ${order.getTotalPrice()}" th:text = "${insfundsmsg}">nopay</p>
+    <p th:if="${#httpSession.getAttribute('USER_ROLE')} == 'client' and ${client.getMoney()} < ${order.getTotalPrice()}" th:text = "${insfundsmsg}">nopay</p>
 </body>
 </html>

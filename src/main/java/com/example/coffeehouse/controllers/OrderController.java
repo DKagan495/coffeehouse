@@ -3,6 +3,7 @@ package com.example.coffeehouse.controllers;
 import com.example.coffeehouse.dto.OrderDTO;
 import com.example.coffeehouse.models.Client;
 import com.example.coffeehouse.models.Employee;
+import com.example.coffeehouse.models.constkits.AuthResult;
 import com.example.coffeehouse.services.ClientService;
 import com.example.coffeehouse.services.EmployeeService;
 import com.example.coffeehouse.services.OrderService;
@@ -36,28 +37,34 @@ public class OrderController {
 
     @GetMapping("/orders")
     public String allOrders(Model model){
+        if(httpSession.getAttribute("AUTHORIZATION_RESULT_EMPLOYEE") != AuthResult.VALID && httpSession.getAttribute("AUTHORIZATION_RESULT_CLIENT") != AuthResult.VALID)
+            return "redirect:/auth";
         model.addAttribute("employees", employeeService.getAllEmployees());
         model.addAttribute("clients", clientService.toClientList());
         model.addAttribute("orderlist", orderService.getAllOrders());
         return "orderlist";
     }
     @GetMapping("/myorders")
-    public String currentEmployeeOrders(Model model){
+    public String currentUserOrders(Model model){
+        if(httpSession.getAttribute("AUTHORIZATION_RESULT_EMPLOYEE") != AuthResult.VALID && httpSession.getAttribute("AUTHORIZATION_RESULT_CLIENT") != AuthResult.VALID)
+            return "redirect:/auth";
         if(httpSession.getAttribute("USER_ROLE").equals("employee"))
             model.addAttribute("myorders", orderService.getCurrentEmployeeOrders());
-        else if (httpSession.getAttribute("USER_ROLE").equals("client"))
+        if (httpSession.getAttribute("USER_ROLE").equals("client"))
             model.addAttribute("myorders", orderService.getCurrentClientOrders());
-        else
-            return "redirect:/auth";
         return "myorders";
     }
     @GetMapping("/employees/{id}/orders")
     public String employeeOrders(@PathVariable int id, Model model) {
+        if(httpSession.getAttribute("AUTHORIZATION_RESULT_EMPLOYEE") != AuthResult.VALID && httpSession.getAttribute("AUTHORIZATION_RESULT_CLIENT") != AuthResult.VALID)
+            return "redirect:/auth";
         model.addAttribute("orderlist", orderService.getEmployeeOrders(id));
         return "orderlist";
     }
     @GetMapping("/orders/{id}")
     public String employeeOrder(@PathVariable int id, Model model){
+        if(httpSession.getAttribute("AUTHORIZATION_RESULT_EMPLOYEE") != AuthResult.VALID && httpSession.getAttribute("AUTHORIZATION_RESULT_CLIENT") != AuthResult.VALID)
+            return "redirect:/auth";
         System.out.println(orderService.getOrder(id).getClientId() + "clientsId");
         Client client = clientService.toClientPage(orderService.getOrder(id).getClientId());
         Employee employee = employeeService.getEmployee(orderService.getOrder(id).getEmployeesId());
@@ -69,12 +76,16 @@ public class OrderController {
 
     @GetMapping("/myorders/complete")
     public String getMyCompleteOrders(Model model){
+        if(httpSession.getAttribute("AUTHORIZATION_RESULT_CLIENT") != AuthResult.VALID)
+            return "redirect:/auth";
         model.addAttribute("myorders", orderService.getCurrentClientCompleteOrders());
         return "myorders";
     }
 
     @GetMapping("/orders/{id}/get")
     public String getOrderByClient(@PathVariable int id){
+        if(httpSession.getAttribute("AUTHORIZATION_RESULT_CLIENT") != AuthResult.VALID)
+            return "redirect:/auth";
         if(clientService.toClientPage((int) httpSession.getAttribute("USER_ID")).getMoney() < orderService.getOrder(id).getTotalPrice())
             return "redirect:/orders/" + id;
         orderService.setTakenStatus(id);
