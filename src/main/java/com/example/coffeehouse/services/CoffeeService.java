@@ -1,8 +1,6 @@
 package com.example.coffeehouse.services;
 
 import com.example.coffeehouse.models.Coffee;
-import com.example.coffeehouse.models.converters.CupCoefficients;
-import com.example.coffeehouse.repositories.CoffeeCostsRepository;
 import com.example.coffeehouse.repositories.CoffeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,10 +12,6 @@ import java.util.List;
 public class CoffeeService {
     @Autowired
     private CoffeeRepository coffeeRepository;
-
-    @Autowired
-    private CoffeeCostsRepository coffeeCostsRepository;
-
 
     @Transactional
     public double getCostWithoutEmployeesRank(String coffeeName, String arabicaName, double sizeCost){

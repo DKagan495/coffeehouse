@@ -1,4 +1,4 @@
-package com.example.coffeehouse.models.converters;
+package com.example.coffeehouse.models.constkits;
 
 public enum Rank {
     BEGINNER("Beginner", 1.1), MIDDLE("Middle", 2.0), MASTER("Master", 3.6);

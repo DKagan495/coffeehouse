@@ -1,5 +1,6 @@
 package com.example.coffeehouse.controllers;
 
+import com.example.coffeehouse.models.constkits.AuthResult;
 import com.example.coffeehouse.services.EmployeeAuthorizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,8 +29,10 @@ public class EmployeeAuthController {
             httpSession.setAttribute("USER_ID", employeeAuthorizationService.checkLogInParameters(login, password).getId());
             httpSession.setAttribute("USER_NAME", employeeAuthorizationService.checkLogInParameters(login, password).getName());
             httpSession.setAttribute("USER_ROLE", "employee");
+            httpSession.setAttribute("AUTHORIZATION_RESULT", AuthResult.VALID);
             return "redirect:/employees/" + employeeAuthorizationService.checkLogInParameters(login, password).getId();
         }
+        httpSession.setAttribute("AUTHORIZATION_RESULT", AuthResult.INVALID);
         return "redirect:/emplauth";
     }
 }

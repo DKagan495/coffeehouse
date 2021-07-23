@@ -1,7 +1,6 @@
 package com.example.coffeehouse.dto;
 
-import com.example.coffeehouse.models.converters.CupSizes;
-import org.springframework.stereotype.Component;
+import com.example.coffeehouse.models.constkits.CupSizes;
 
 import javax.persistence.*;
 

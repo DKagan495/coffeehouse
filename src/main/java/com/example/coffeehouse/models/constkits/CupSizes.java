@@ -1,4 +1,4 @@
-package com.example.coffeehouse.models.converters;
+package com.example.coffeehouse.models.constkits;
 
 public enum CupSizes {
     LITTLE("Little", 1.4), MEDIUM("Medium", 2.7), BIG("Big", 3.6);

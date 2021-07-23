@@ -1,7 +1,7 @@
 package com.example.coffeehouse.controllers;
 
 import com.example.coffeehouse.dto.OrderDTO;
-import com.example.coffeehouse.models.converters.CupSizes;
+import com.example.coffeehouse.models.constkits.CupSizes;
 import com.example.coffeehouse.services.CoffeeService;
 import com.example.coffeehouse.services.EmployeeService;
 import com.example.coffeehouse.services.OrderService;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpSession;
-import java.util.Locale;
 import java.util.stream.Stream;
 
 @Controller

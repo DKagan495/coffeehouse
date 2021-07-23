@@ -5,6 +5,7 @@
     <title>Log In</title>
 </head>
 <body>
+<p style="color: red" th:if="${#httpSession.getAttribute('AUTHORIZATION_RESULT')} != null && ${#httpSession.getAttribute('AUTHORIZATION_RESULT')} == 'INVALID'">Invalid email or password</p>
   <form method="post">
     <input type="email" name="email" id="email" placeholder="Email">
     <input type="password" name="password" id="password" placeholder="Password">

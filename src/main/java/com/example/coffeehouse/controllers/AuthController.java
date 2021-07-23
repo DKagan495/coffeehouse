@@ -1,17 +1,14 @@
 package com.example.coffeehouse.controllers;
 
 import com.example.coffeehouse.models.Client;
-import com.example.coffeehouse.models.Employee;
-import com.example.coffeehouse.models.converters.Rank;
+import com.example.coffeehouse.models.constkits.AuthResult;
 import com.example.coffeehouse.services.ClientAuthorizationService;
 import com.example.coffeehouse.services.CoffeeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -51,8 +48,10 @@ public class AuthController {
         if(clientAuthorizationService.checkLogInParameters(email, password) != null){
             httpSession.setAttribute("USER_ID", clientAuthorizationService.checkLogInParameters(email, password).getId());
             httpSession.setAttribute("USER_ROLE", "client");
+            httpSession.setAttribute("AUTHORIZATION_RESULT", AuthResult.VALID);
             return "redirect:/clients/" + clientAuthorizationService.checkLogInParameters(email, password).getId();
         }
+        httpSession.setAttribute("AUTHORIZATION_RESULT", AuthResult.INVALID);
         return "redirect:/auth";
     }
 }

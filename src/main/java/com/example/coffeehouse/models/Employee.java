@@ -1,6 +1,6 @@
 package com.example.coffeehouse.models;
 
-import com.example.coffeehouse.models.converters.Rank;
+import com.example.coffeehouse.models.constkits.Rank;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
