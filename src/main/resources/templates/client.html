@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Client</title>
@@ -8,5 +8,6 @@
 <p th:text="${client.getName()} + ' ' + ${client.getSurname()}">client</p>
 <p th:text="${client.getSex}"client</p>
 <p th:text="${client.getAge} + ' years old'">client</p>
+<p th:if="${client.getId} == ${#httpSession.getAttribute('USER_ID')}" th:text="'Money: ' + ${client.getMoney()} + ' BYN'">client</p>
 </body>
 </html>

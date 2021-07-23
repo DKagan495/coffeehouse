@@ -3,6 +3,7 @@ package com.example.coffeehouse.services;
 import com.example.coffeehouse.dto.OrderDTO;
 import com.example.coffeehouse.models.Client;
 import com.example.coffeehouse.models.Employee;
+import com.example.coffeehouse.models.constkits.OrderStatus;
 import com.example.coffeehouse.repositories.EmployeeRepository;
 import com.example.coffeehouse.repositories.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +60,7 @@ public class OrderService {
     @Transactional
     public void setInProcessStatus(int id){
         OrderDTO orderDTO = orderRepository.findById(id);
-        orderDTO.setStatus("in process");
+        orderDTO.setStatus(OrderStatus.INPROCESS.getStatus());
         orderRepository.save(orderDTO);
     }
 
@@ -67,7 +68,7 @@ public class OrderService {
     public void setCompleteStatus(int id){
         OrderDTO orderDTO = orderRepository.findById(id);
         orderDTO.setTotalPrice(orderDTO.getTotalPrice() + employeeRepository.findById(orderDTO.getEmployeesId()).get().getRank().getAddition());
-        orderDTO.setStatus("complete");
+        orderDTO.setStatus(OrderStatus.COMPLETE.getStatus());
         orderRepository.save(orderDTO);
     }
 }

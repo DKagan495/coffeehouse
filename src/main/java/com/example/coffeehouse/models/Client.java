@@ -15,10 +15,11 @@ public class Client {
     private String password;
     private String sex;
     private int age;
+    private double money;
     public Client(){
 
     }
-    public Client(int id, String name, String surname, String email, String password, String sex, int age) {
+    public Client(int id, String name, String surname, String email, String password, String sex, int age, double money) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -26,6 +27,7 @@ public class Client {
         this.password = password;
         this.sex = sex;
         this.age = age;
+        this.money = money;
     }
 
     public int getId() {
@@ -82,5 +84,13 @@ public class Client {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public double getMoney() {
+        return money;
+    }
+
+    public void setMoney(double money) {
+        this.money = money;
     }
 }

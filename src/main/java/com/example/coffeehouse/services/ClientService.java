@@ -4,7 +4,9 @@ import com.example.coffeehouse.models.Client;
 import com.example.coffeehouse.repositories.ClientCrudRepostirory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,10 +16,20 @@ public class ClientService {
     @Autowired
     ClientCrudRepostirory clientCrudRepostirory;
 
+    @Autowired
+    HttpSession httpSession;
+
+    @Transactional
     public Client toClientPage(int id){
        return clientCrudRepostirory.findById(id);
     }
+    @Transactional
     public List<Client> toClientList(){
         return (List<Client>) clientCrudRepostirory.findAll();
+    }
+
+    @Transactional
+    public void moneyToCurrnetClient(double money){
+        clientCrudRepostirory.updMoney((int)httpSession.getAttribute("USER_ID"), money);
     }
 }
