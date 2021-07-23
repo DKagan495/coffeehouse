@@ -5,13 +5,13 @@
     <title>Log In</title>
 </head>
 <body>
-<p style="color: red" th:if="${#httpSession.getAttribute('AUTHORIZATION_RESULT')} != null && ${#httpSession.getAttribute('AUTHORIZATION_RESULT')} == 'INVALID'">Invalid email or password</p>
   <form method="post">
     <input type="email" name="email" id="email" placeholder="Email">
     <input type="password" name="password" id="password" placeholder="Password">
     <input type="submit" value="Log In">
   </form>
-<a href="/reg">Create account</a><br/>
+  <p style="color: red" th:if="${#httpSession.getAttribute('AUTHORIZATION_RESULT_CLIENT')} == ${T(com.example.coffeehouse.models.constkits.AuthResult).INVALID}">Invalid email or password</p>
+  <a href="/reg">Create account</a><br/>
 <br/>
 <a href="/emplauth">Log In like employee</a>
 </body>

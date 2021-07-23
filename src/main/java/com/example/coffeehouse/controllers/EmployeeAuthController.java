@@ -29,10 +29,10 @@ public class EmployeeAuthController {
             httpSession.setAttribute("USER_ID", employeeAuthorizationService.checkLogInParameters(login, password).getId());
             httpSession.setAttribute("USER_NAME", employeeAuthorizationService.checkLogInParameters(login, password).getName());
             httpSession.setAttribute("USER_ROLE", "employee");
-            httpSession.setAttribute("AUTHORIZATION_RESULT", AuthResult.VALID);
+            httpSession.setAttribute("AUTHORIZATION_RESULT_EMPLOYEE", AuthResult.VALID);
             return "redirect:/employees/" + employeeAuthorizationService.checkLogInParameters(login, password).getId();
         }
-        httpSession.setAttribute("AUTHORIZATION_RESULT", AuthResult.INVALID);
+        httpSession.setAttribute("AUTHORIZATION_RESULT_EMPLOYEE", AuthResult.INVALID);
         return "redirect:/emplauth";
     }
 }

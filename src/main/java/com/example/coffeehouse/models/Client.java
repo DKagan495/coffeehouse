@@ -15,7 +15,6 @@ public class Client {
     private String password;
     private String sex;
     private int age;
-
     public Client(){
 
     }

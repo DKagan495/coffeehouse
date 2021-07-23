@@ -25,6 +25,8 @@ public class AuthController {
    /* public AuthController(ClientAuthorizationService clientAuthorizationService){
         this.clientAuthorizationService = clientAuthorizationService;
     }*/
+
+
     @GetMapping("/reg")
     public String regFormMapping(Model model){
         List<String> arabicas = coffeeService.getArabicasNames();
@@ -41,6 +43,7 @@ public class AuthController {
     }
     @GetMapping("/auth")
     public String logInFormMapping(){
+        //httpSession.setAttribute("AUTHORIZATION_RESULT", AuthResult.NORESULT);
         return "loginform";
     }
     @PostMapping("/auth")
@@ -48,10 +51,10 @@ public class AuthController {
         if(clientAuthorizationService.checkLogInParameters(email, password) != null){
             httpSession.setAttribute("USER_ID", clientAuthorizationService.checkLogInParameters(email, password).getId());
             httpSession.setAttribute("USER_ROLE", "client");
-            httpSession.setAttribute("AUTHORIZATION_RESULT", AuthResult.VALID);
+            httpSession.setAttribute("AUTHORIZATION_RESULT_CLIENT", AuthResult.VALID);
             return "redirect:/clients/" + clientAuthorizationService.checkLogInParameters(email, password).getId();
         }
-        httpSession.setAttribute("AUTHORIZATION_RESULT", AuthResult.INVALID);
+        httpSession.setAttribute("AUTHORIZATION_RESULT_CLIENT", AuthResult.INVALID);
         return "redirect:/auth";
     }
 }
