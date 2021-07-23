@@ -12,6 +12,6 @@ public interface ClientCrudRepostirory extends CrudRepository<Client, Integer> {
     public Client findById(int id);
 
     @Modifying
-    @Query("update Client c set c.money = :money where c.id = :id")
+    @Query("update Client c set c.money = c.money + :money where c.id = :id")
     public void updMoney(@Param("id") int id, @Param("money") double money);
 }
