@@ -14,4 +14,14 @@ public interface ClientCrudRepostirory extends CrudRepository<Client, Integer> {
     @Modifying
     @Query("update Client c set c.money = c.money + :money where c.id = :id")
     public void updMoney(@Param("id") int id, @Param("money") double money);
+
+    @Modifying
+    @Query("update Client c set c.name = :name, c.surname = :surname, c.age = :age, c.sex = :sex where c.id = :id")
+    public void updClientGeneralInfo(@Param("id") int id, @Param("name") String name, @Param("surname") String surname, @Param("age") int age, @Param("sex") String sex);
+
+    @Modifying
+    @Query("update Client c set c.email = :email, c.password = :password where c.id = :id")
+    public void updClientLogInInfo(@Param("id") int id, @Param("email") String email, @Param("password") String password);
+
+    public void deleteById(int id);
 }

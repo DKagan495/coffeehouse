@@ -32,4 +32,19 @@ public class ClientService {
     public void moneyToCurrnetClient(double money){
         clientCrudRepostirory.updMoney((int)httpSession.getAttribute("USER_ID"), money);
     }
+    @Transactional
+    public void updateClientGeneralInfo(String name, String surname, int age, String sex){
+        clientCrudRepostirory.updClientGeneralInfo((int) httpSession.getAttribute("USER_ID"), name, surname, age, sex);
+    }
+
+    @Transactional
+    public void updateClientLogInInfo(String email, String password){
+        clientCrudRepostirory.updClientLogInInfo((int) httpSession.getAttribute("USER_ID"), email, password);
+    }
+
+    @Transactional
+    public void deleteCurrentUserAccount(){
+        clientCrudRepostirory.deleteById((int) httpSession.getAttribute("USER_ID"));
+        httpSession.invalidate();
+    }
 }

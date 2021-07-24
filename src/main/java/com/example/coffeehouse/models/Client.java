@@ -1,9 +1,11 @@
 package com.example.coffeehouse.models;
 
+import com.example.coffeehouse.models.constkits.UserSex;
 import org.springframework.data.relational.core.mapping.Table;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 @Entity
 public class Client {
@@ -13,6 +15,8 @@ public class Client {
     private String surname;
     private String email;
     private String password;
+    @Transient
+    private UserSex userSex;
     private String sex;
     private int age;
     private double money;
@@ -68,6 +72,14 @@ public class Client {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public UserSex getUserSex() {
+        return userSex;
+    }
+
+    public void setUserSex(UserSex userSex) {
+        this.userSex = userSex;
     }
 
     public String getSex() {

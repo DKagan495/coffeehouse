@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit email or password</title>
+</head>
+<body>
+    <form th:method="PATCH">
+        <input type="email" name="email" id="email" th:value="${client.getEmail()}">
+        <input type="password" name="password" id="password" th:value="${client.getPassword()}">
+        <input type="submit" value="Save changes">
+    </form>
+</body>
+</html>

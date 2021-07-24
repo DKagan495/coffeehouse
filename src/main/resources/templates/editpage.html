@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit</title>
+</head>
+<body>
+  <form th:method="PATCH">
+      <input type="text" name="name" id="name" th:value="${client.getName()}">
+      <input type="text" name="surname" id="surname" th:value="${client.getSurname()}">
+      <input type="text" name="age" id="age" th:value="${client.getAge()}">
+      <select name="sex" id="sex" th:value="${client.getSex()}">
+            <option th:each="userSex : ${T(com.example.coffeehouse.models.constkits.UserSex).values()}" th:value="${userSex.getSex()}" th:text="${userSex.getSex()}" th:selected="${client.getSex()}"></option>
+      </select>
+    <input type="submit" value="Save changes">
+  </form>
+<a href="/edit/log">Security and Log In Settings</a>
+</body>
+</html>
