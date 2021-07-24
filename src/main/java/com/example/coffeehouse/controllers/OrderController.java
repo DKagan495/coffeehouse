@@ -58,8 +58,8 @@ public class OrderController {
     public String employeeOrders(@PathVariable int id, Model model) {
         if(httpSession.getAttribute("AUTHORIZATION_RESULT_EMPLOYEE") != AuthResult.VALID && httpSession.getAttribute("AUTHORIZATION_RESULT_CLIENT") != AuthResult.VALID)
             return "redirect:/auth";
-        model.addAttribute("orderlist", orderService.getEmployeeOrders(id));
-        return "orderlist";
+        model.addAttribute("myorders", orderService.getEmployeeOrders(id));
+        return "myorders";
     }
     @GetMapping("/orders/{id}")
     public String employeeOrder(@PathVariable int id, Model model){
@@ -79,6 +79,14 @@ public class OrderController {
         if(httpSession.getAttribute("AUTHORIZATION_RESULT_CLIENT") != AuthResult.VALID)
             return "redirect:/auth";
         model.addAttribute("myorders", orderService.getCurrentClientCompleteOrders());
+        return "myorders";
+    }
+
+    @GetMapping("/myorders/taken")
+    public String getMyTakenOrders(Model model){
+        if(httpSession.getAttribute("AUTHORIZATION_RESULT_CLIENT") != AuthResult.VALID)
+            return "redirect:/auth";
+        model.addAttribute("myorders", orderService.getCurrentClientTakenOrders());
         return "myorders";
     }
 

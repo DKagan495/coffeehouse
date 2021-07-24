@@ -17,24 +17,14 @@ public class AuthController {
 
     @Autowired
     private HttpSession httpSession;
+
     @Autowired
     private ClientAuthorizationService clientAuthorizationService;
-
-    @Autowired
-    private CoffeeService coffeeService;
-   /* public AuthController(ClientAuthorizationService clientAuthorizationService){
-        this.clientAuthorizationService = clientAuthorizationService;
-    }*/
-
 
     @GetMapping("/reg")
     public String regFormMapping(Model model){
         if(httpSession.getAttribute("AUTHORIZATION_RESULT_CLIENT") == AuthResult.VALID)
             return "redirect:/me";
-        List<String> arabicas = coffeeService.getArabicasNames();
-        System.out.println(coffeeService.getArabicaCostByName("Kafa") + " this is cost!!!");
-        for(String s: arabicas)
-            System.out.println(s);
         model.addAttribute("client", new Client());
         return "regform";
     }

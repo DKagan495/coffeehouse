@@ -8,9 +8,12 @@
 <p th:text="${client.getName()} + ' ' + ${client.getSurname()}">client</p>
 <p th:text="${client.getSex}"client</p>
 <p th:text="${client.getAge} + ' years old'">client</p>
-<p th:if="${client.getId} == ${#httpSession.getAttribute('USER_ID')}" th:text="'Money: ' + ${client.getMoney()} + ' BYN'">client</p>
-<a th:if="${client.getId} == ${#httpSession.getAttribute('USER_ID')}" th:href="@{/getcoffee}">Get coffee</a>
-<a th:if="${client.getId} == ${#httpSession.getAttribute('USER_ID')}" th:href="@{/myorders}">My orders</a>
-<a th:if="${client.getId} == ${#httpSession.getAttribute('USER_ID')}" th:href="@{/myorders/complete}">Complete orders</a>
+<div th:if="${#httpSession.getAttribute('USER_ROLE') == 'client'}">
+    <p th:if="${client.getId} == ${#httpSession.getAttribute('USER_ID')}" th:text="'Money: ' + ${client.getMoney()} + ' BYN'">client</p>
+    <a th:if="${client.getId} == ${#httpSession.getAttribute('USER_ID')}" th:href="@{/getcoffee}">Get coffee</a>
+    <a th:if="${client.getId} == ${#httpSession.getAttribute('USER_ID')}" th:href="@{/myorders}">My orders</a>
+    <a th:if="${client.getId} == ${#httpSession.getAttribute('USER_ID')}" th:href="@{/myorders/complete}">Complete orders</a>
+    <a th:if="${client.getId} == ${#httpSession.getAttribute('USER_ID')}" th:href="@{/myorders/taken}">Taken orders</a>
+</div>
 </body>
 </html>

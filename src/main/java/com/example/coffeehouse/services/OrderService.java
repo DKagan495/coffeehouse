@@ -59,6 +59,11 @@ public class OrderService {
     }
 
     @Transactional
+    public List<OrderDTO> getCurrentClientTakenOrders(){
+        return orderRepository.findByClientIdAndStatus((int) httpSession.getAttribute("USER_ID"), OrderStatus.TAKEN.getStatus());
+    }
+
+    @Transactional
     public OrderDTO getOrder(int id){
         return orderRepository.findById(id);
     }
