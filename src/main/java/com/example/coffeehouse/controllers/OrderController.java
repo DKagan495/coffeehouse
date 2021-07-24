@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import javax.servlet.http.HttpSession;
 
 @Controller
-public class OrderController {
+public class OrderController{
     @Autowired
     HttpSession httpSession;
 
