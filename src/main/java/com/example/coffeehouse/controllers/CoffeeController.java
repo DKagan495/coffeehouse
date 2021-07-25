@@ -3,6 +3,7 @@ package com.example.coffeehouse.controllers;
 import com.example.coffeehouse.dto.OrderDTO;
 import com.example.coffeehouse.models.constkits.AuthResult;
 import com.example.coffeehouse.models.constkits.CupSizes;
+import com.example.coffeehouse.models.constkits.OrderStatus;
 import com.example.coffeehouse.services.CoffeeService;
 import com.example.coffeehouse.services.EmployeeService;
 import com.example.coffeehouse.services.OrderService;
@@ -48,7 +49,7 @@ public class CoffeeController {
         double totalPrice = coffeeService.getCostWithoutEmployeesRank(orderDTO.getName(), orderDTO.getArabica(), Stream.of(CupSizes.values()).filter(c->c.getSize().equals(orderDTO.getCupSize())).findFirst().orElseThrow(IllegalArgumentException::new).getCost());
         System.out.println("Session user_id = " + (int) httpSession.getAttribute("USER_ID"));
         orderDTO.setClientId((int) httpSession.getAttribute("USER_ID"));
-        orderDTO.setStatus("not started");
+        orderDTO.setStatus(OrderStatus.NOTSTARTED.getStatus());
         orderDTO.setTotalPrice(totalPrice);
         orderService.addToOrders(orderDTO);
         return "redirect:/me";

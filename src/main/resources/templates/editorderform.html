@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit order</title>
+</head>
+<body>
+<form th:method="PATCH">
+    <select name="Select coffee" th:field="*{name}">
+        <div th:each="coffee : ${coffeelist}">
+            <option th:value="${coffee.getName}" th:text="${coffee.getName}">coffee</option>
+        </div>
+    </select>
+    <select name="Select arabica" th:field="*{arabica}">
+        <div th:each="arabica : ${arabicalist}">
+            <option th:value="${arabica}" th:text="${arabica}">arabica</option>
+        </div>
+    </select>
+    <select name="Select a cup" th:field="*{cupSize}">
+        <div th:each="cupsize : ${cupsizes}">
+            <option th:value="${cupsize.getSize()}" th:text="${cupsize.getSize()}">cupkind</option>
+        </div>
+    </select>
+    <select name="Select a cup" th:field="*{employeesId}">
+        <div th:each="employee : ${employees}">
+            <option selected th:value="${order.getEmployeesId()}" th:text="${employee.getName()} + ' ' + ${employee.getSurname()}"">
+            <option th:value="${employee.getId()}" th:text="${employee.getName()} + ' ' + ${employee.getSurname()}">employee</option>
+        </div>
+    </select>
+    <input type="submit" value="Get">
+    <input type="submit" value="Save changes">
+</form>
+</body>
+</html>

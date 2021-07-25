@@ -5,6 +5,7 @@ import com.example.coffeehouse.models.Client;
 import com.example.coffeehouse.models.Employee;
 import com.example.coffeehouse.models.constkits.AuthResult;
 import com.example.coffeehouse.services.ClientService;
+import com.example.coffeehouse.services.CoffeeService;
 import com.example.coffeehouse.services.EmployeeService;
 import com.example.coffeehouse.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,9 @@ public class OrderController{
 
     @Autowired
     ClientService clientService;
+
+    @Autowired
+    CoffeeService coffeeService;
 
     @ModelAttribute("insfundsmsg")
     public String noPay(){
@@ -100,6 +104,15 @@ public class OrderController{
         orderService.setTakenStatus(id);
         clientService.moneyToCurrnetClient(- orderService.getOrder(id).getTotalPrice());
         return "redirect:/me";
+    }
+
+    @GetMapping("/orders/{id}/edit")
+    public String toEditOrderForm(@PathVariable int id, Model model){
+        model.addAttribute("order", orderService.getOrder(id));
+        model.addAttribute("employees", employeeService.getAllEmployees());
+        model.addAttribute("coffeelist", coffeeService.getAllCoffies());
+        model.addAttribute("arabicalist", coffeeService.getArabicasNames());
+        return "editorderform";
     }
 
 
