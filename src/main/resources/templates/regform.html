@@ -12,8 +12,8 @@
         <input type="password" th:field="*{password}" id="password" placeholder="Devise your password"><br/>
         <input type="text" th:field="*{age}" id="age" placeholder="Enter your age"><br/>
         <select th:field="*{sex}">
-            <option th:value="Male" th:text="Male"></option>
-            <option th:value="Female" th:text="Female"></option>
+            <option disabled value="">Select gender</option>
+            <option th:each="sex : ${T(com.example.coffeehouse.models.constkits.UserSex).values()}" th:value="${sex.getSex()}" th:text="${sex.getSex()}"></option>
         </select>
         <input type="submit" value="Do">
     </form>

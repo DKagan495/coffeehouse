@@ -14,20 +14,12 @@ public class OrderDTO {
     private String name;
     private String arabica;
     private String cupSize;
-    @Transient
-    @Enumerated(EnumType.STRING)
-    private CupSizes cupSizes;
     private double totalPrice;
     private String status;
 
     public OrderDTO() {
     }
 
-    public OrderDTO(String name, String arabica, String cupSize) {
-        this.name = name;
-        this.arabica = arabica;
-        this.cupSize = cupSize;
-    }
 
     public int getId() {
         return id;
@@ -75,14 +67,6 @@ public class OrderDTO {
 
     public void setCupSize(String cupSize) {
         this.cupSize = cupSize;
-    }
-
-    public CupSizes getCupSizes() {
-        return cupSizes;
-    }
-
-    public void setCupSizes(CupSizes cupSizes) {
-        this.cupSizes = cupSizes;
     }
 
     public double getTotalPrice() {

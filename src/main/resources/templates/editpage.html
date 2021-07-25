@@ -10,7 +10,8 @@
       <input type="text" name="surname" id="surname" th:value="${client.getSurname()}">
       <input type="text" name="age" id="age" th:value="${client.getAge()}">
       <select name="sex" id="sex" th:value="${client.getSex()}">
-            <option th:each="userSex : ${T(com.example.coffeehouse.models.constkits.UserSex).values()}" th:value="${userSex.getSex()}" th:text="${userSex.getSex()}" th:selected="${client.getSex()}"></option>
+          <option th:selected="${client.getSex()}" th:value="${client.getSex}" th:text="${client.getSex}"></option>
+            <option th:each="userSex : ${T(com.example.coffeehouse.models.constkits.UserSex).values()}" th:unless="${userSex.getSex} == ${client.getSex}" th:value="${userSex.getSex()}" th:text="${userSex.getSex()}"></option>
       </select>
     <input type="submit" value="Save changes">
   </form>
