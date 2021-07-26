@@ -89,7 +89,8 @@ public class ClientController {
     }
     @DeleteMapping("/delete")
     public String deleteUser(){
+        orderService.deleteClientOrders((int) httpSession.getAttribute("USER_ID"));
         clientService.deleteCurrentUserAccount();
-        return "redirect:/me";
+        return "redirect:/auth";
     }
 }

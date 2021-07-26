@@ -7,9 +7,11 @@ import com.example.coffeehouse.services.CoffeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -29,7 +31,9 @@ public class AuthController {
         return "regform";
     }
     @PostMapping("/reg")
-    public String regMapping(@ModelAttribute Client client){
+    public String regMapping(@ModelAttribute @Valid Client client, BindingResult bindingResult){
+        if(bindingResult.hasErrors())
+            return "regform";
         clientAuthorizationService.addClientToDataBase(client);
         httpSession.setAttribute("USER_ID", client.getId());
         httpSession.setAttribute("USER_ROLE", "client");

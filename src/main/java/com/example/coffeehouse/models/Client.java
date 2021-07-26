@@ -6,18 +6,32 @@ import org.springframework.data.relational.core.mapping.Table;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Transient;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Client {
     @Id
     private int id;
+    @NotEmpty(message = "Field name is empty")
+    @Size(min = 2, max = 28, message = "Name is not valid")
     private String name;
+    @NotEmpty(message = "Field surname is empty")
+    @Size(min = 2, max = 30, message = "Surname is not valid")
     private String surname;
+    @NotEmpty(message = "Field email is empty")
+    @Email(message = "Email is not valid")
     private String email;
+    @NotEmpty(message = "Field password is empty")
+    @Size(min = 8, message = "Invalid password (the password must contain 8 charachters at least)")
     private String password;
     @Transient
     private UserSex userSex;
     private String sex;
+    @Min(value = 0, message = "Age less than zero")
+    @Min(value = 12, message = "Age should be more than 12")
     private int age;
     private double money;
     public Client(){

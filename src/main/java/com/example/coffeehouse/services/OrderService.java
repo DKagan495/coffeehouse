@@ -100,4 +100,9 @@ public class OrderService {
         orderDTO.setStatus(OrderStatus.TAKEN.getStatus());
         orderRepository.save(orderDTO);
     }
+
+    @Transactional
+    public void deleteClientOrders(int clientId){
+        orderRepository.deleteByClientId(clientId);
+    }
 }

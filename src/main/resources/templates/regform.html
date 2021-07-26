@@ -1,15 +1,20 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
     <form th:method="post" th:object="${client}">
+        <p style="color: red" th:if="${#fields.hasErrors()}" th:errors="*{name}">Not valid name</p>
         <input type="text" th:field="*{name}" id="name" placeholder="Enter your name"><br/>
+        <p style="color: red" th:if="${#fields.hasErrors()}" th:errors="*{surname}">Not valid surname</p>
         <input type="text" th:field="*{surname}" id="surname" placeholder="Enter your surname"><br/>
+        <p style="color: red" th:if="${#fields.hasErrors()}" th:errors="*{email}">Not valid email</p>
         <input type="email" th:field="*{email}" id="email" placeholder="Enter your email"><br/>
+        <p style="color: red" th:if="${#fields.hasErrors()}" th:errors="*{password}">Not valid password</p>
         <input type="password" th:field="*{password}" id="password" placeholder="Devise your password"><br/>
+        <p style="color: red" th:if="${#fields.hasErrors()}" th:errors="*{age}">Not valid age</p>
         <input type="text" th:field="*{age}" id="age" placeholder="Enter your age"><br/>
         <select th:field="*{sex}">
             <option disabled value="">Select gender</option>

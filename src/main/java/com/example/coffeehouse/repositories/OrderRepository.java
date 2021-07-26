@@ -13,6 +13,7 @@ public interface OrderRepository extends CrudRepository<OrderDTO, String> {
     public List<OrderDTO> findByEmployeesId(int id);
     public List<OrderDTO> findByClientId(int id);
     public List<OrderDTO> findByClientIdAndStatus(int id, String status);
+    public void deleteByClientId(int id);
     @Modifying
     @Query("update OrderDTO o set o.name = :coffee, o.arabica = :arabica, o.cupSize = :cup, o.employeesId = :employeesId where o.id = :id")
     public void updOrder(@Param("id") int id, @Param("coffee") String coffee, @Param("arabica") String arabica, @Param("cup") String cup, @Param("employeesId") int employeesId);
