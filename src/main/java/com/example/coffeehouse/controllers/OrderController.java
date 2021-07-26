@@ -4,19 +4,21 @@ import com.example.coffeehouse.dto.OrderDTO;
 import com.example.coffeehouse.models.Client;
 import com.example.coffeehouse.models.Employee;
 import com.example.coffeehouse.models.constkits.AuthResult;
+import com.example.coffeehouse.models.constkits.CupSizes;
+import com.example.coffeehouse.models.constkits.OrderStatus;
 import com.example.coffeehouse.services.ClientService;
 import com.example.coffeehouse.services.CoffeeService;
 import com.example.coffeehouse.services.EmployeeService;
 import com.example.coffeehouse.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.relational.core.mapping.Embedded;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.stream.Stream;
 
 @Controller
 public class OrderController{
@@ -108,11 +110,22 @@ public class OrderController{
 
     @GetMapping("/orders/{id}/edit")
     public String toEditOrderForm(@PathVariable int id, Model model){
-        model.addAttribute("order", orderService.getOrder(id));
-        model.addAttribute("employees", employeeService.getAllEmployees());
-        model.addAttribute("coffeelist", coffeeService.getAllCoffies());
-        model.addAttribute("arabicalist", coffeeService.getArabicasNames());
-        return "editorderform";
+        if(orderService.getOrder(id).getStatus().equals(OrderStatus.NOTSTARTED.getStatus()) && orderService.getOrder(id).getClientId() == (int) httpSession.getAttribute("USER_ID") && httpSession.getAttribute("USER_ROLE").equals("client")) {
+            model.addAttribute("order", orderService.getOrder(id));
+            model.addAttribute("employees", employeeService.getAllEmployees());
+            model.addAttribute("coffeelist", coffeeService.getAllCoffies());
+            model.addAttribute("arabicalist", coffeeService.getArabicasNames());
+            model.addAttribute("statuses", OrderStatus.values());
+            return "editorderform";
+        }
+        return "redirect:/me";
+    }
+
+    @PatchMapping("/orders/{id}/edit")
+    public String updateOrder(@PathVariable int id, @ModelAttribute("order") OrderDTO orderDTO){
+        double totalPrice = coffeeService.getCostWithoutEmployeesRank(orderDTO.getName(), orderDTO.getArabica(), Stream.of(CupSizes.values()).filter(c->c.getSize().equals(orderDTO.getCupSize())).findFirst().orElseThrow(IllegalArgumentException::new).getCost());
+        orderService.updOrder(orderDTO.getId(), orderDTO.getName(), orderDTO.getArabica(), orderDTO.getCupSize(), orderDTO.getEmployeesId(), totalPrice);
+        return "redirect:/orders/" + orderDTO.getId();
     }
 
 

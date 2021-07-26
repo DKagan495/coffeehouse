@@ -74,6 +74,12 @@ public class OrderService {
     }
 
     @Transactional
+    public void updOrder(int id, String name, String arabica, String cup, int employeesId, double totalPrice){
+        orderRepository.updOrder(id, name, arabica, cup, employeesId);
+        orderRepository.updTotalPrice(id, totalPrice);
+    }
+
+    @Transactional
     public void setInProcessStatus(int id){
         OrderDTO orderDTO = orderRepository.findById(id);
         orderDTO.setStatus(OrderStatus.INPROCESS.getStatus());
