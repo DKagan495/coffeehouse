@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
 import java.util.stream.Stream;
 
 @Controller
@@ -101,10 +102,10 @@ public class OrderController{
     public String getOrderByClient(@PathVariable int id){
         if(httpSession.getAttribute("AUTHORIZATION_RESULT_CLIENT") != AuthResult.VALID)
             return "redirect:/auth";
-        if(clientService.toClientPage((int) httpSession.getAttribute("USER_ID")).getMoney() < orderService.getOrder(id).getTotalPrice())
+        if(clientService.toClientPage((int) httpSession.getAttribute("USER_ID")).getMoney().compareTo(orderService.getOrder(id).getTotalPrice()) < 0)
             return "redirect:/orders/" + id;
         orderService.setTakenStatus(id);
-        clientService.moneyToCurrnetClient(- orderService.getOrder(id).getTotalPrice());
+        clientService.moneyToCurrnetClient(new BigDecimal(0).subtract(orderService.getOrder(id).getTotalPrice()));
         return "redirect:/me";
     }
 
@@ -123,7 +124,7 @@ public class OrderController{
 
     @PatchMapping("/orders/{id}/edit")
     public String updateOrder(@PathVariable int id, @ModelAttribute("order") OrderDTO orderDTO){
-        double totalPrice = coffeeService.getCostWithoutEmployeesRank(orderDTO.getName(), orderDTO.getArabica(), Stream.of(CupSizes.values()).filter(c->c.getSize().equals(orderDTO.getCupSize())).findFirst().orElseThrow(IllegalArgumentException::new).getCost());
+        BigDecimal totalPrice = coffeeService.getCostWithoutEmployeesRank(orderDTO.getName(), orderDTO.getArabica(), Stream.of(CupSizes.values()).filter(c->c.getSize().equals(orderDTO.getCupSize())).findFirst().orElseThrow(IllegalArgumentException::new).getCost());
         orderService.updOrder(orderDTO.getId(), orderDTO.getName(), orderDTO.getArabica(), orderDTO.getCupSize(), orderDTO.getEmployeesId(), totalPrice);
         return "redirect:/orders/" + orderDTO.getId();
     }

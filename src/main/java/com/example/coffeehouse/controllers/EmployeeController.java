@@ -38,7 +38,7 @@ public class EmployeeController {
     }
     @GetMapping("/mycard")
     public String toMyPage(){
-        if(httpSession.getAttribute("AUTHORIZATION_RESULT_CLIENT") != AuthResult.VALID)
+        if(httpSession.getAttribute("AUTHORIZATION_RESULT_EMPLOYEE") != AuthResult.VALID)
             return "redirect:/auth";
         System.out.println(httpSession.getAttribute("USER_ID"));
         return "redirect:/employees/" + httpSession.getAttribute("USER_ID");

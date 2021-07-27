@@ -1,11 +1,13 @@
 package com.example.coffeehouse.models.constkits;
 
+import java.math.BigDecimal;
+
 public enum CupSizes {
-    LITTLE("Little", 1.4), MEDIUM("Medium", 2.7), BIG("Big", 3.6);
+    LITTLE("Little", new BigDecimal(1.4)), MEDIUM("Medium", new BigDecimal(2.7)), BIG("Big", new BigDecimal(3.6));
 
     private final String size;
-    private final double cost;
-    CupSizes(String size, double cost) {
+    private final BigDecimal cost;
+    CupSizes(String size, BigDecimal cost) {
         this.size = size;
         this.cost = cost;
     }
@@ -14,7 +16,7 @@ public enum CupSizes {
         return size;
     }
 
-    public double getCost() {
+    public BigDecimal getCost() {
         return cost;
     }
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,7 +30,7 @@ public class ClientService {
     }
 
     @Transactional
-    public void moneyToCurrnetClient(double money){
+    public void moneyToCurrnetClient(BigDecimal money){
         clientCrudRepostirory.updMoney((int)httpSession.getAttribute("USER_ID"), money);
     }
     @Transactional

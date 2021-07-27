@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 @Service
@@ -74,7 +76,7 @@ public class OrderService {
     }
 
     @Transactional
-    public void updOrder(int id, String name, String arabica, String cup, int employeesId, double totalPrice){
+    public void updOrder(int id, String name, String arabica, String cup, int employeesId, BigDecimal totalPrice){
         orderRepository.updOrder(id, name, arabica, cup, employeesId);
         orderRepository.updTotalPrice(id, totalPrice);
     }
@@ -89,7 +91,10 @@ public class OrderService {
     @Transactional
     public void setCompleteStatus(int id){
         OrderDTO orderDTO = orderRepository.findById(id);
-        orderDTO.setTotalPrice(orderDTO.getTotalPrice() + employeeRepository.findById(orderDTO.getEmployeesId()).get().getRank().getAddition());
+        BigDecimal totalPrice = orderDTO.getTotalPrice().add(employeeRepository.findById(orderDTO.getEmployeesId()).get().getRank().getAddition());
+        totalPrice = totalPrice.setScale(2, RoundingMode.HALF_DOWN);
+        orderDTO.setTotalPrice(totalPrice);
+
         orderDTO.setStatus(OrderStatus.COMPLETE.getStatus());
         orderRepository.save(orderDTO);
     }

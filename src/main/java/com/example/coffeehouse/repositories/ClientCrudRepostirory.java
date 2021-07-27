@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface ClientCrudRepostirory extends CrudRepository<Client, Integer> {
@@ -13,7 +14,7 @@ public interface ClientCrudRepostirory extends CrudRepository<Client, Integer> {
 
     @Modifying
     @Query("update Client c set c.money = c.money + :money where c.id = :id")
-    public void updMoney(@Param("id") int id, @Param("money") double money);
+    public void updMoney(@Param("id") int id, @Param("money") BigDecimal money);
 
     @Modifying
     @Query("update Client c set c.name = :name, c.surname = :surname, c.age = :age, c.sex = :sex where c.id = :id")

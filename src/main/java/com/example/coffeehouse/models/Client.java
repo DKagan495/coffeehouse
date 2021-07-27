@@ -10,6 +10,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.math.BigDecimal;
 
 @Entity
 public class Client {
@@ -27,17 +28,15 @@ public class Client {
     @NotEmpty(message = "Field password is empty")
     @Size(min = 8, message = "Invalid password (the password must contain 8 charachters at least)")
     private String password;
-    @Transient
-    private UserSex userSex;
     private String sex;
     @Min(value = 0, message = "Age less than zero")
     @Min(value = 12, message = "Age should be more than 12")
     private int age;
-    private double money;
+    private BigDecimal money;
     public Client(){
 
     }
-    public Client(int id, String name, String surname, String email, String password, String sex, int age, double money) {
+    public Client(int id, String name, String surname, String email, String password, String sex, int age, BigDecimal money) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -88,14 +87,6 @@ public class Client {
         this.password = password;
     }
 
-    public UserSex getUserSex() {
-        return userSex;
-    }
-
-    public void setUserSex(UserSex userSex) {
-        this.userSex = userSex;
-    }
-
     public String getSex() {
         return sex;
     }
@@ -112,11 +103,11 @@ public class Client {
         this.age = age;
     }
 
-    public double getMoney() {
+    public BigDecimal getMoney() {
         return money;
     }
 
-    public void setMoney(double money) {
+    public void setMoney(BigDecimal money) {
         this.money = money;
     }
 }

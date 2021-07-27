@@ -3,6 +3,8 @@ package com.example.coffeehouse.dto;
 import com.example.coffeehouse.models.constkits.CupSizes;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 @Entity
 @Table(name = "orders")
@@ -14,7 +16,7 @@ public class OrderDTO {
     private String name;
     private String arabica;
     private String cupSize;
-    private double totalPrice;
+    private BigDecimal totalPrice;
     private String status;
 
     public OrderDTO() {
@@ -69,11 +71,12 @@ public class OrderDTO {
         this.cupSize = cupSize;
     }
 
-    public double getTotalPrice() {
+    public BigDecimal getTotalPrice() {
+        totalPrice.setScale(2, RoundingMode.HALF_DOWN);
         return totalPrice;
     }
 
-    public void setTotalPrice(double totalPrice) {
+    public void setTotalPrice(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
     }
 

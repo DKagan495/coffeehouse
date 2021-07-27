@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
 
 @Controller
 public class ClientController {
@@ -57,7 +58,7 @@ public class ClientController {
     }
 
     @PatchMapping("/getmoney")
-    public String getMoneyReq(@RequestParam double money){
+    public String getMoneyReq(@RequestParam BigDecimal money){
         clientService.moneyToCurrnetClient(money);
         return "redirect:/me";
     }
@@ -72,6 +73,7 @@ public class ClientController {
 
     @PatchMapping("/edit")
     public String saveUpdGeneralsChanges(@RequestParam String name, @RequestParam String surname, @RequestParam int age, @RequestParam String sex){
+
         clientService.updateClientGeneralInfo(name, surname, age, sex);
         return "redirect:/me";
     }

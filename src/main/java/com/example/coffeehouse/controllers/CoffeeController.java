@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.stream.Stream;
 
 @Controller
@@ -46,7 +48,8 @@ public class CoffeeController {
     @PostMapping("/getcoffee")
     public String sendToEmployee(@ModelAttribute("orderdto") OrderDTO orderDTO){
         System.out.println(orderDTO.getCupSize());
-        double totalPrice = coffeeService.getCostWithoutEmployeesRank(orderDTO.getName(), orderDTO.getArabica(), Stream.of(CupSizes.values()).filter(c->c.getSize().equals(orderDTO.getCupSize())).findFirst().orElseThrow(IllegalArgumentException::new).getCost());
+        BigDecimal totalPrice = coffeeService.getCostWithoutEmployeesRank(orderDTO.getName(), orderDTO.getArabica(), Stream.of(CupSizes.values()).filter(c->c.getSize().equals(orderDTO.getCupSize())).findFirst().orElseThrow(IllegalArgumentException::new).getCost());
+        totalPrice.setScale(2, RoundingMode.HALF_DOWN);
         System.out.println("Session user_id = " + (int) httpSession.getAttribute("USER_ID"));
         orderDTO.setClientId((int) httpSession.getAttribute("USER_ID"));
         orderDTO.setStatus(OrderStatus.NOTSTARTED.getStatus());

@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface OrderRepository extends CrudRepository<OrderDTO, String> {
@@ -19,5 +20,5 @@ public interface OrderRepository extends CrudRepository<OrderDTO, String> {
     public void updOrder(@Param("id") int id, @Param("coffee") String coffee, @Param("arabica") String arabica, @Param("cup") String cup, @Param("employeesId") int employeesId);
     @Modifying
     @Query("update OrderDTO o set o.totalPrice = :totalPrice where o.id = :id")
-    public void updTotalPrice(@Param("id") int id, @Param("totalPrice") double totalPrice);
+    public void updTotalPrice(@Param("id") int id, @Param("totalPrice") BigDecimal totalPrice);
 }

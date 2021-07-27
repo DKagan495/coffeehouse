@@ -1,11 +1,13 @@
 package com.example.coffeehouse.models.constkits;
 
-public enum Rank {
-    BEGINNER("Beginner", 1.1), MIDDLE("Middle", 2.0), MASTER("Master", 3.6);
-    private final String kind;
-    private final double addition;
+import java.math.BigDecimal;
 
-    Rank(String kind, double addition) {
+public enum Rank {
+    BEGINNER("Beginner", new BigDecimal(1.1)), MIDDLE("Middle", new BigDecimal(2.0)), MASTER("Master", new BigDecimal(3.6));
+    private final String kind;
+    private final BigDecimal addition;
+
+    Rank(String kind, BigDecimal addition) {
         this.kind = kind;
         this.addition = addition;
     }
@@ -14,7 +16,7 @@ public enum Rank {
         return kind;
     }
 
-    public double getAddition() {
+    public BigDecimal getAddition() {
         return addition;
     }
 }
