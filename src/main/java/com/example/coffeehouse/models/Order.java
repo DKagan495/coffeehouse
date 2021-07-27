@@ -1,4 +1,4 @@
-package com.example.coffeehouse.dto;
+package com.example.coffeehouse.models;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -6,7 +6,7 @@ import java.math.RoundingMode;
 
 @Entity
 @Table(name = "orders")
-public class OrderDTO {
+public class Order {
     @Id
     private int id;
     private int employeesId;
@@ -17,7 +17,7 @@ public class OrderDTO {
     private BigDecimal totalPrice;
     private String status;
 
-    public OrderDTO() {
+    public Order() {
     }
 
 

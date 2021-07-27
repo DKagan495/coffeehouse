@@ -1,6 +1,6 @@
 package com.example.coffeehouse.controllers;
 
-import com.example.coffeehouse.dto.OrderDTO;
+import com.example.coffeehouse.models.Order;
 import com.example.coffeehouse.models.Client;
 import com.example.coffeehouse.models.Employee;
 import com.example.coffeehouse.models.constkits.AuthResult;
@@ -120,10 +120,10 @@ public class OrderController{
     }
 
     @PatchMapping("/orders/{id}/edit")
-    public String updateOrder(@PathVariable int id, @ModelAttribute("order") OrderDTO orderDTO){
-        BigDecimal totalPrice = coffeeService.getCostWithoutEmployeesRank(orderDTO.getName(), orderDTO.getArabica(), Stream.of(CupSizes.values()).filter(c->c.getSize().equals(orderDTO.getCupSize())).findFirst().orElseThrow(IllegalArgumentException::new).getCost());
-        orderService.updOrder(orderDTO.getId(), orderDTO.getName(), orderDTO.getArabica(), orderDTO.getCupSize(), orderDTO.getEmployeesId(), totalPrice);
-        return "redirect:/orders/" + orderDTO.getId();
+    public String updateOrder(@PathVariable int id, @ModelAttribute("order") Order order){
+        BigDecimal totalPrice = coffeeService.getCostWithoutEmployeesRank(order.getName(), order.getArabica(), Stream.of(CupSizes.values()).filter(c->c.getSize().equals(order.getCupSize())).findFirst().orElseThrow(IllegalArgumentException::new).getCost());
+        orderService.updOrder(order.getId(), order.getName(), order.getArabica(), order.getCupSize(), order.getEmployeesId(), totalPrice);
+        return "redirect:/orders/" + order.getId();
     }
 
 

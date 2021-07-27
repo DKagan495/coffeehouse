@@ -1,6 +1,6 @@
 package com.example.coffeehouse.controllers;
 
-import com.example.coffeehouse.dto.OrderDTO;
+import com.example.coffeehouse.models.Order;
 import com.example.coffeehouse.models.constkits.AuthResult;
 import com.example.coffeehouse.models.constkits.CupSizes;
 import com.example.coffeehouse.models.constkits.OrderStatus;
@@ -37,8 +37,8 @@ public class CoffeeController {
     public String toGetCoffeeForm(Model model){
         if(httpSession.getAttribute("AUTHORIZATION_RESULT_CLIENT") == null || !httpSession.getAttribute("AUTHORIZATION_RESULT_CLIENT").equals(AuthResult.VALID))
             return "redirect:/auth";
-        OrderDTO orderDTO = new OrderDTO();
-        model.addAttribute("orderdto", orderDTO);
+        Order order = new Order();
+        model.addAttribute("orderdto", order);
         model.addAttribute("employees", employeeService.getAllEmployees());
         model.addAttribute("coffeelist", coffeeService.getAllCoffies());
         model.addAttribute("arabicalist", coffeeService.getArabicasNames());
@@ -46,15 +46,15 @@ public class CoffeeController {
         return "getcoffee";
     }
     @PostMapping("/getcoffee")
-    public String sendToEmployee(@ModelAttribute("orderdto") OrderDTO orderDTO){
-        System.out.println(orderDTO.getCupSize());
-        BigDecimal totalPrice = coffeeService.getCostWithoutEmployeesRank(orderDTO.getName(), orderDTO.getArabica(), Stream.of(CupSizes.values()).filter(c->c.getSize().equals(orderDTO.getCupSize())).findFirst().orElseThrow(IllegalArgumentException::new).getCost());
+    public String sendToEmployee(@ModelAttribute("orderdto") Order order){
+        System.out.println(order.getCupSize());
+        BigDecimal totalPrice = coffeeService.getCostWithoutEmployeesRank(order.getName(), order.getArabica(), Stream.of(CupSizes.values()).filter(c->c.getSize().equals(order.getCupSize())).findFirst().orElseThrow(IllegalArgumentException::new).getCost());
         totalPrice.setScale(2, RoundingMode.HALF_DOWN);
         System.out.println("Session user_id = " + (int) httpSession.getAttribute("USER_ID"));
-        orderDTO.setClientId((int) httpSession.getAttribute("USER_ID"));
-        orderDTO.setStatus(OrderStatus.NOTSTARTED.getStatus());
-        orderDTO.setTotalPrice(totalPrice);
-        orderService.addToOrders(orderDTO);
+        order.setClientId((int) httpSession.getAttribute("USER_ID"));
+        order.setStatus(OrderStatus.NOTSTARTED.getStatus());
+        order.setTotalPrice(totalPrice);
+        orderService.addToOrders(order);
         return "redirect:/me";
     }
 }

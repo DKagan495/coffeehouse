@@ -1,6 +1,6 @@
 package com.example.coffeehouse.services;
 
-import com.example.coffeehouse.dto.OrderDTO;
+import com.example.coffeehouse.models.Order;
 import com.example.coffeehouse.models.constkits.OrderStatus;
 import com.example.coffeehouse.repositories.EmployeeRepository;
 import com.example.coffeehouse.repositories.OrderRepository;
@@ -26,49 +26,49 @@ public class OrderService {
     HttpSession httpSession;
 
     @Transactional
-    public void addToOrders(OrderDTO orderDTO){
-        List<OrderDTO> orderList = (List<OrderDTO>) orderRepository.findAll();
+    public void addToOrders(Order order){
+        List<Order> orderList = (List<Order>) orderRepository.findAll();
         orderList.sort((o1, o2) -> o1.getId() - o2.getId());
         if(orderList.isEmpty())
-            orderDTO.setId(0);
+            order.setId(0);
         else
-            orderDTO.setId(orderList.get(orderList.size()-1).getId()+1);
-        System.out.println("order id = " + orderDTO.getId());
-        orderRepository.save(orderDTO);
+            order.setId(orderList.get(orderList.size()-1).getId()+1);
+        System.out.println("order id = " + order.getId());
+        orderRepository.save(order);
     }
 
     @Transactional
-    public List<OrderDTO> getAllOrders(){
-        return (List<OrderDTO>) orderRepository.findAll();
+    public List<Order> getAllOrders(){
+        return (List<Order>) orderRepository.findAll();
     }
 
     @Transactional
-    public List<OrderDTO> getCurrentEmployeeOrders(){
+    public List<Order> getCurrentEmployeeOrders(){
         return orderRepository.findByEmployeesId((int) httpSession.getAttribute("USER_ID"));
     }
 
     @Transactional
-    public List<OrderDTO> getCurrentClientOrders(){
+    public List<Order> getCurrentClientOrders(){
         return orderRepository.findByClientId((int) httpSession.getAttribute("USER_ID"));
     }
 
     @Transactional
-    public List<OrderDTO> getCurrentClientCompleteOrders(){
+    public List<Order> getCurrentClientCompleteOrders(){
         return orderRepository.findByClientIdAndStatus((int) httpSession.getAttribute("USER_ID"), OrderStatus.COMPLETE.getStatus());
     }
 
     @Transactional
-    public List<OrderDTO> getCurrentClientTakenOrders(){
+    public List<Order> getCurrentClientTakenOrders(){
         return orderRepository.findByClientIdAndStatus((int) httpSession.getAttribute("USER_ID"), OrderStatus.TAKEN.getStatus());
     }
 
     @Transactional
-    public OrderDTO getOrder(int id){
+    public Order getOrder(int id){
         return orderRepository.findById(id);
     }
 
     @Transactional
-    public List<OrderDTO> getEmployeeOrders(int id){
+    public List<Order> getEmployeeOrders(int id){
         return orderRepository.findByEmployeesId(id);
     }
 
@@ -80,27 +80,27 @@ public class OrderService {
 
     @Transactional
     public void setInProcessStatus(int id){
-        OrderDTO orderDTO = orderRepository.findById(id);
-        orderDTO.setStatus(OrderStatus.INPROCESS.getStatus());
-        orderRepository.save(orderDTO);
+        Order order = orderRepository.findById(id);
+        order.setStatus(OrderStatus.INPROCESS.getStatus());
+        orderRepository.save(order);
     }
 
     @Transactional
     public void setCompleteStatus(int id){
-        OrderDTO orderDTO = orderRepository.findById(id);
-        BigDecimal totalPrice = orderDTO.getTotalPrice().add(employeeRepository.findById(orderDTO.getEmployeesId()).get().getRank().getAddition());
+        Order order = orderRepository.findById(id);
+        BigDecimal totalPrice = order.getTotalPrice().add(employeeRepository.findById(order.getEmployeesId()).get().getRank().getAddition());
         totalPrice = totalPrice.setScale(2, RoundingMode.HALF_DOWN);
-        orderDTO.setTotalPrice(totalPrice);
+        order.setTotalPrice(totalPrice);
 
-        orderDTO.setStatus(OrderStatus.COMPLETE.getStatus());
-        orderRepository.save(orderDTO);
+        order.setStatus(OrderStatus.COMPLETE.getStatus());
+        orderRepository.save(order);
     }
 
     @Transactional
     public void setTakenStatus(int id ){
-        OrderDTO orderDTO = orderRepository.findById(id);
-        orderDTO.setStatus(OrderStatus.TAKEN.getStatus());
-        orderRepository.save(orderDTO);
+        Order order = orderRepository.findById(id);
+        order.setStatus(OrderStatus.TAKEN.getStatus());
+        orderRepository.save(order);
     }
 
     @Transactional
