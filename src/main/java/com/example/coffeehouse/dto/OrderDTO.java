@@ -1,7 +1,5 @@
 package com.example.coffeehouse.dto;
 
-import com.example.coffeehouse.models.constkits.CupSizes;
-
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;

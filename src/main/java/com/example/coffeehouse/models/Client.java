@@ -1,11 +1,7 @@
 package com.example.coffeehouse.models;
 
-import com.example.coffeehouse.models.constkits.UserSex;
-import org.springframework.data.relational.core.mapping.Table;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;

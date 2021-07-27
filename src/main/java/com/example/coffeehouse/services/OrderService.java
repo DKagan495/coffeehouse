@@ -1,12 +1,9 @@
 package com.example.coffeehouse.services;
 
 import com.example.coffeehouse.dto.OrderDTO;
-import com.example.coffeehouse.models.Client;
-import com.example.coffeehouse.models.Employee;
 import com.example.coffeehouse.models.constkits.OrderStatus;
 import com.example.coffeehouse.repositories.EmployeeRepository;
 import com.example.coffeehouse.repositories.OrderRepository;
-import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
