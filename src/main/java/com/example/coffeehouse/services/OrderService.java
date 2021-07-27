@@ -97,9 +97,10 @@ public class OrderService {
     }
 
     @Transactional
-    public void setTakenStatus(int id ){
+    public void setTakenStatus(int id){
         Order order = orderRepository.findById(id);
         order.setStatus(OrderStatus.TAKEN.getStatus());
+        employeeRepository.updEmployeesMoney(orderRepository.findById(id).getEmployeesId(), employeeRepository.findById((orderRepository.findById(id).getEmployeesId())).get().getRank().getAddition());
         orderRepository.save(order);
     }
 

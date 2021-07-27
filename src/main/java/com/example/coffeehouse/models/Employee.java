@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
+import java.math.BigDecimal;
 
 @Entity
 public class Employee {
@@ -16,6 +17,7 @@ public class Employee {
     private int age;
     @Enumerated(EnumType.STRING)
     private Rank rank;
+    private BigDecimal money;
     private String login;
     private String password;
 
@@ -70,6 +72,14 @@ public class Employee {
 
     public void setRank(Rank rank) {
         this.rank = rank;
+    }
+
+    public BigDecimal getMoney() {
+        return money;
+    }
+
+    public void setMoney(BigDecimal money) {
+        this.money = money;
     }
 
     public String getLogin() {

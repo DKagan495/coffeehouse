@@ -1,6 +1,7 @@
 package com.example.coffeehouse.models.constkits;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public enum Rank {
     BEGINNER("Beginner", new BigDecimal(1.1)), MIDDLE("Middle", new BigDecimal(2.0)), MASTER("Master", new BigDecimal(3.6));
@@ -17,6 +18,6 @@ public enum Rank {
     }
 
     public BigDecimal getAddition() {
-        return addition;
+        return addition.setScale(2, RoundingMode.HALF_DOWN);
     }
 }
