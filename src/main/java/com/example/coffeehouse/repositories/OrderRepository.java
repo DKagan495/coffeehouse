@@ -12,9 +12,9 @@ import java.util.List;
 public interface OrderRepository extends CrudRepository<Order, String> {
     public Order findById(int id);
     public List<Order> findByEmployeesId(int id);
-    public List<Order> findByClientId(int id);
-    public List<Order> findByClientIdAndStatus(int id, String status);
-    public void deleteByClientId(int id);
+    public List<Order> findByClientId(long id);
+    public List<Order> findByClientIdAndStatus(long id, String status);
+    public void deleteByClientId(long id);
     @Modifying
     @Query("update Order o set o.name = :coffee, o.arabica = :arabica, o.cupSize = :cup, o.employeesId = :employeesId where o.id = :id")
     public void updOrder(@Param("id") int id, @Param("coffee") String coffee, @Param("arabica") String arabica, @Param("cup") String cup, @Param("employeesId") int employeesId);

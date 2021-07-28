@@ -13,14 +13,17 @@ import java.util.List;
 @Service
 public class ClientService {
 
-    @Autowired
-    ClientCrudRepostirory clientCrudRepostirory;
+    private final ClientCrudRepostirory clientCrudRepostirory;
 
-    @Autowired
-    HttpSession httpSession;
+    private final HttpSession httpSession;
+
+    public ClientService(ClientCrudRepostirory clientCrudRepostirory, HttpSession httpSession) {
+        this.clientCrudRepostirory = clientCrudRepostirory;
+        this.httpSession = httpSession;
+    }
 
     @Transactional
-    public Client toClientPage(int id){
+    public Client toClientPage(long id){
        return clientCrudRepostirory.findById(id);
     }
     @Transactional
@@ -30,21 +33,21 @@ public class ClientService {
 
     @Transactional
     public void moneyToCurrnetClient(BigDecimal money){
-        clientCrudRepostirory.updMoney((int)httpSession.getAttribute("USER_ID"), money);
+        clientCrudRepostirory.updMoney((long)httpSession.getAttribute("USER_ID"), money);
     }
     @Transactional
     public void updateClientGeneralInfo(String name, String surname, int age, String sex){
-        clientCrudRepostirory.updClientGeneralInfo((int) httpSession.getAttribute("USER_ID"), name, surname, age, sex);
+        clientCrudRepostirory.updClientGeneralInfo((long) httpSession.getAttribute("USER_ID"), name, surname, age, sex);
     }
 
     @Transactional
     public void updateClientLogInInfo(String email, String password){
-        clientCrudRepostirory.updClientLogInInfo((int) httpSession.getAttribute("USER_ID"), email, password);
+        clientCrudRepostirory.updClientLogInInfo((long) httpSession.getAttribute("USER_ID"), email, password);
     }
 
     @Transactional
     public void deleteCurrentUserAccount(){
-        clientCrudRepostirory.deleteById((int) httpSession.getAttribute("USER_ID"));
+        clientCrudRepostirory.deleteById((long) httpSession.getAttribute("USER_ID"));
         httpSession.invalidate();
     }
 }

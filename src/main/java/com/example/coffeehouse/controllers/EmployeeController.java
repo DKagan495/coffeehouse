@@ -13,14 +13,17 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class EmployeeController {
 
-    @Autowired
-    private HttpSession httpSession;
+    private final HttpSession httpSession;
 
-    @Autowired
-    EmployeeService employeeService;
+    private final EmployeeService employeeService;
 
-    @Autowired
-    OrderService orderService;
+    private final OrderService orderService;
+
+    public EmployeeController(HttpSession httpSession, EmployeeService employeeService, OrderService orderService) {
+        this.httpSession = httpSession;
+        this.employeeService = employeeService;
+        this.orderService = orderService;
+    }
 
     @GetMapping("/employees/{id}")
     public String toEmployeePage(@PathVariable int id, Model model){

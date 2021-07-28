@@ -2,7 +2,6 @@ package com.example.coffeehouse.controllers;
 
 import com.example.coffeehouse.models.constkits.AuthResult;
 import com.example.coffeehouse.services.EmployeeAuthorizationService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,11 +12,14 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class EmployeeAuthController {
 
-    @Autowired
-    HttpSession httpSession;
+    private final HttpSession httpSession;
 
-    @Autowired
-    EmployeeAuthorizationService employeeAuthorizationService;
+    private final EmployeeAuthorizationService employeeAuthorizationService;
+
+    public EmployeeAuthController(HttpSession httpSession, EmployeeAuthorizationService employeeAuthorizationService) {
+        this.httpSession = httpSession;
+        this.employeeAuthorizationService = employeeAuthorizationService;
+    }
 
     @GetMapping("/emplauth")
     public String logInFormMapping(){

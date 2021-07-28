@@ -10,7 +10,6 @@ import com.example.coffeehouse.services.ClientService;
 import com.example.coffeehouse.services.CoffeeService;
 import com.example.coffeehouse.services.EmployeeService;
 import com.example.coffeehouse.services.OrderService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,20 +19,24 @@ import java.util.stream.Stream;
 
 @Controller
 public class OrderController{
-    @Autowired
-    HttpSession httpSession;
 
-    @Autowired
-    OrderService orderService;
+    private final HttpSession httpSession;
 
-    @Autowired
-    EmployeeService employeeService;
+    private final OrderService orderService;
 
-    @Autowired
-    ClientService clientService;
+    private final EmployeeService employeeService;
 
-    @Autowired
-    CoffeeService coffeeService;
+    private final ClientService clientService;
+
+    private final CoffeeService coffeeService;
+
+    public OrderController(HttpSession httpSession, OrderService orderService, EmployeeService employeeService, ClientService clientService, CoffeeService coffeeService) {
+        this.httpSession = httpSession;
+        this.orderService = orderService;
+        this.employeeService = employeeService;
+        this.clientService = clientService;
+        this.coffeeService = coffeeService;
+    }
 
     @ModelAttribute("insfundsmsg")
     public String noPay(){
@@ -99,7 +102,7 @@ public class OrderController{
     public String getOrderByClient(@PathVariable int id){
         if(httpSession.getAttribute("AUTHORIZATION_RESULT_CLIENT") != AuthResult.VALID)
             return "redirect:/auth";
-        if(clientService.toClientPage((int) httpSession.getAttribute("USER_ID")).getMoney().compareTo(orderService.getOrder(id).getTotalPrice()) < 0)
+        if(clientService.toClientPage((long) httpSession.getAttribute("USER_ID")).getMoney().compareTo(orderService.getOrder(id).getTotalPrice()) < 0)
             return "redirect:/orders/" + id;
         orderService.setTakenStatus(id);
         clientService.moneyToCurrnetClient(new BigDecimal(0).subtract(orderService.getOrder(id).getTotalPrice()));
@@ -108,7 +111,7 @@ public class OrderController{
 
     @GetMapping("/orders/{id}/edit")
     public String toEditOrderForm(@PathVariable int id, Model model){
-        if(orderService.getOrder(id).getStatus().equals(OrderStatus.NOTSTARTED.getStatus()) && orderService.getOrder(id).getClientId() == (int) httpSession.getAttribute("USER_ID") && httpSession.getAttribute("USER_ROLE").equals("client")) {
+        if(orderService.getOrder(id).getStatus().equals(OrderStatus.NOTSTARTED.getStatus()) && orderService.getOrder(id).getClientId() == (long) httpSession.getAttribute("USER_ID") && httpSession.getAttribute("USER_ROLE").equals("client")) {
             model.addAttribute("order", orderService.getOrder(id));
             model.addAttribute("employees", employeeService.getAllEmployees());
             model.addAttribute("coffeelist", coffeeService.getAllCoffies());

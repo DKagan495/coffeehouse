@@ -10,7 +10,7 @@ public class Order {
     @Id
     private int id;
     private int employeesId;
-    private int clientId;
+    private long clientId;
     private String name;
     private String arabica;
     private String cupSize;
@@ -37,11 +37,11 @@ public class Order {
         this.employeesId = employeesId;
     }
 
-    public int getClientId() {
+    public long getClientId() {
         return clientId;
     }
 
-    public void setClientId(int clientId) {
+    public void setClientId(long clientId) {
         this.clientId = clientId;
     }
 

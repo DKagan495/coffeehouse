@@ -14,11 +14,14 @@ import javax.validation.Valid;
 @Controller
 public class AuthController {
 
-    @Autowired
     private HttpSession httpSession;
 
-    @Autowired
     private ClientAuthorizationService clientAuthorizationService;
+
+    public AuthController(HttpSession httpSession, ClientAuthorizationService clientAuthorizationService) {
+        this.httpSession = httpSession;
+        this.clientAuthorizationService = clientAuthorizationService;
+    }
 
     @GetMapping("/reg")
     public String regFormMapping(Model model){
@@ -33,6 +36,7 @@ public class AuthController {
             return "regform";
         clientAuthorizationService.addClientToDataBase(client);
         httpSession.setAttribute("USER_ID", client.getId());
+        System.out.println("Session id during registration is " + httpSession.getAttribute("USER_ID"));
         httpSession.setAttribute("USER_ROLE", "client");
         httpSession.setAttribute("AUTHORIZATION_RESULT_CLIENT", AuthResult.VALID);
         return "redirect:/me";

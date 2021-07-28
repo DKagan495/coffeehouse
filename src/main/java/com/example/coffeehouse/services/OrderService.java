@@ -16,14 +16,17 @@ import java.util.List;
 @Service
 public class OrderService {
 
-    @Autowired
-    OrderRepository orderRepository;
+    private final OrderRepository orderRepository;
 
-    @Autowired
-    EmployeeRepository employeeRepository;
+    private final EmployeeRepository employeeRepository;
 
-    @Autowired
-    HttpSession httpSession;
+    private final HttpSession httpSession;
+
+    public OrderService(OrderRepository orderRepository, EmployeeRepository employeeRepository, HttpSession httpSession) {
+        this.orderRepository = orderRepository;
+        this.employeeRepository = employeeRepository;
+        this.httpSession = httpSession;
+    }
 
     @Transactional
     public void addToOrders(Order order){
@@ -49,17 +52,17 @@ public class OrderService {
 
     @Transactional
     public List<Order> getCurrentClientOrders(){
-        return orderRepository.findByClientId((int) httpSession.getAttribute("USER_ID"));
+        return orderRepository.findByClientId((long) httpSession.getAttribute("USER_ID"));
     }
 
     @Transactional
     public List<Order> getCurrentClientCompleteOrders(){
-        return orderRepository.findByClientIdAndStatus((int) httpSession.getAttribute("USER_ID"), OrderStatus.COMPLETE.getStatus());
+        return orderRepository.findByClientIdAndStatus((long) httpSession.getAttribute("USER_ID"), OrderStatus.COMPLETE.getStatus());
     }
 
     @Transactional
     public List<Order> getCurrentClientTakenOrders(){
-        return orderRepository.findByClientIdAndStatus((int) httpSession.getAttribute("USER_ID"), OrderStatus.TAKEN.getStatus());
+        return orderRepository.findByClientIdAndStatus((long) httpSession.getAttribute("USER_ID"), OrderStatus.TAKEN.getStatus());
     }
 
     @Transactional
@@ -105,7 +108,7 @@ public class OrderService {
     }
 
     @Transactional
-    public void deleteClientOrders(int clientId){
+    public void deleteClientOrders(long clientId){
         orderRepository.deleteByClientId(clientId);
     }
 }

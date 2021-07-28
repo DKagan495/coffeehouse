@@ -8,9 +8,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class EmployeeAuthorizationService {
-    @Autowired
-    private AuthorizationEmployeeCrudRepository authorizationEmployeeCrudRepository;
 
+    private final AuthorizationEmployeeCrudRepository authorizationEmployeeCrudRepository;
+
+    public EmployeeAuthorizationService(AuthorizationEmployeeCrudRepository authorizationEmployeeCrudRepository) {
+        this.authorizationEmployeeCrudRepository = authorizationEmployeeCrudRepository;
+    }
 
     @Transactional
     public Employee checkLogInParameters(String email, String password){

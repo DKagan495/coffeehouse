@@ -3,7 +3,6 @@ package com.example.coffeehouse.controllers;
 import com.example.coffeehouse.models.constkits.AuthResult;
 import com.example.coffeehouse.services.ClientService;
 import com.example.coffeehouse.services.OrderService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,14 +11,19 @@ import java.math.BigDecimal;
 
 @Controller
 public class ClientController {
-    @Autowired
-    private HttpSession httpSession;
 
-    @Autowired
-    ClientService clientService;
+    private final HttpSession httpSession;
 
-    @Autowired
-    OrderService orderService;
+    private final ClientService clientService;
+
+    private final OrderService orderService;
+
+    public ClientController(HttpSession httpSession, ClientService clientService, OrderService orderService) {
+        this.httpSession = httpSession;
+        this.clientService = clientService;
+        this.orderService = orderService;
+    }
+
 
     @GetMapping("/clients/{id}")
     public String toClientPage(@PathVariable int id, Model model){
@@ -41,7 +45,6 @@ public class ClientController {
     public String getClientList(Model model){
         if(httpSession.getAttribute("AUTHORIZATION_RESULT_CLIENT") != AuthResult.VALID && httpSession.getAttribute("AUTHORIZATION_RESULT_EMPLOYEE") != AuthResult.VALID)
             return "redirect:/auth";
-        System.out.println(clientService.toClientList().get(1).getName());
         model.addAttribute("clients", clientService.toClientList());
         return "clientlist";
     }
@@ -63,7 +66,7 @@ public class ClientController {
     public String getUpdateGeneralsForm(Model model){
         if(httpSession.getAttribute("AUTHORIZATION_RESULT_CLIENT") != AuthResult.VALID)
             return "redirect:/auth";
-        model.addAttribute("client", clientService.toClientPage((int)httpSession.getAttribute("USER_ID")));
+        model.addAttribute("client", clientService.toClientPage((long)httpSession.getAttribute("USER_ID")));
         return "editpage";
     }
 
@@ -76,7 +79,7 @@ public class ClientController {
 
     @GetMapping("/edit/log")
     public String getUpdateLogInParamsForm(Model model){
-        model.addAttribute("client", clientService.toClientPage((int)httpSession.getAttribute("USER_ID")));
+        model.addAttribute("client", clientService.toClientPage((long)httpSession.getAttribute("USER_ID")));
         return "editlogform";
     }
 
@@ -87,7 +90,7 @@ public class ClientController {
     }
     @DeleteMapping("/delete")
     public String deleteUser(){
-        orderService.deleteClientOrders((int) httpSession.getAttribute("USER_ID"));
+        orderService.deleteClientOrders((long) httpSession.getAttribute("USER_ID"));
         clientService.deleteCurrentUserAccount();
         return "redirect:/auth";
     }
