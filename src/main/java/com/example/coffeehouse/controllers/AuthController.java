@@ -4,19 +4,21 @@ import com.example.coffeehouse.models.Client;
 import com.example.coffeehouse.models.constkits.AuthResult;
 import com.example.coffeehouse.services.ClientAuthorizationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 public class AuthController {
 
-    private HttpSession httpSession;
+    private final HttpSession httpSession;
 
-    private ClientAuthorizationService clientAuthorizationService;
+    private final ClientAuthorizationService clientAuthorizationService;
 
     public AuthController(HttpSession httpSession, ClientAuthorizationService clientAuthorizationService) {
         this.httpSession = httpSession;
@@ -25,7 +27,7 @@ public class AuthController {
 
     @GetMapping("/reg")
     public String regFormMapping(Model model){
-        if(httpSession.getAttribute("AUTHORIZATION_RESULT_CLIENT") == AuthResult.VALID)
+        if(AuthResult.VALID.equals(httpSession.getAttribute("AUTHORIZATION_RESULT_CLIENT")))
             return "redirect:/me";
         model.addAttribute("client", new Client());
         return "regform";
@@ -43,7 +45,7 @@ public class AuthController {
     }
     @GetMapping("/auth")
     public String logInFormMapping(){
-        if(httpSession.getAttribute("AUTHORIZATION_RESULT_CLIENT") == AuthResult.VALID)
+        if(AuthResult.VALID.equals(httpSession.getAttribute("AUTHORIZATION_RESULT_CLIENT")))
             return "redirect:/me";
         return "loginform";
     }
