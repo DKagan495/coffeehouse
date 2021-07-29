@@ -10,6 +10,7 @@ import java.math.RoundingMode;
 import java.util.List;
 
 @Service
+@Transactional
 public class CoffeeService {
 
     private final CoffeeRepository coffeeRepository;
@@ -18,8 +19,6 @@ public class CoffeeService {
         this.coffeeRepository = coffeeRepository;
     }
 
-
-    @Transactional
     public BigDecimal getCostWithoutEmployeesRank(String coffeeName, String arabicaName, BigDecimal sizeCost){
         BigDecimal coffeeCost = new BigDecimal(coffeeRepository.findByName(coffeeName).getCost());
         BigDecimal arabicaCost = new BigDecimal(coffeeRepository.getCostByArabicaName(arabicaName));
@@ -29,12 +28,10 @@ public class CoffeeService {
         return (coffeeCost.add(arabicaCost)).multiply(sizeCost);
     }
 
-    @Transactional
     public List<String> getArabicasNames(){
         return coffeeRepository.getAllArabica();
     }
 
-    @Transactional
     public List<Coffee> getAllCoffies(){
        return (List<Coffee>) coffeeRepository.findAll();
     }

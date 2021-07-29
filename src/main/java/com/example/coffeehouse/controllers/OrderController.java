@@ -6,10 +6,7 @@ import com.example.coffeehouse.models.Employee;
 import com.example.coffeehouse.models.constkits.AuthResult;
 import com.example.coffeehouse.models.constkits.CupSizes;
 import com.example.coffeehouse.models.constkits.OrderStatus;
-import com.example.coffeehouse.services.ClientService;
-import com.example.coffeehouse.services.CoffeeService;
-import com.example.coffeehouse.services.EmployeeService;
-import com.example.coffeehouse.services.OrderService;
+import com.example.coffeehouse.services.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -30,12 +27,15 @@ public class OrderController{
 
     private final CoffeeService coffeeService;
 
-    public OrderController(HttpSession httpSession, OrderService orderService, EmployeeService employeeService, ClientService clientService, CoffeeService coffeeService) {
+    private final MoneyTransferService moneyTransferService;
+
+    public OrderController(HttpSession httpSession, OrderService orderService, EmployeeService employeeService, ClientService clientService, CoffeeService coffeeService, MoneyTransferService moneyTransferService) {
         this.httpSession = httpSession;
         this.orderService = orderService;
         this.employeeService = employeeService;
         this.clientService = clientService;
         this.coffeeService = coffeeService;
+        this.moneyTransferService = moneyTransferService;
     }
 
     @ModelAttribute("insfundsmsg")
@@ -105,7 +105,7 @@ public class OrderController{
         if(clientService.toClientPage((long) httpSession.getAttribute("USER_ID")).getMoney().compareTo(orderService.getOrder(id).getTotalPrice()) < 0)
             return "redirect:/orders/" + id;
         orderService.setTakenStatus(id);
-        clientService.moneyToCurrnetClient(new BigDecimal(0).subtract(orderService.getOrder(id).getTotalPrice()));
+        moneyTransferService.clientToEmployeeMoneyTransferByOrderId(id);
         return "redirect:/me";
     }
 

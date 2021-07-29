@@ -4,11 +4,13 @@ import com.example.coffeehouse.models.Client;
 import com.example.coffeehouse.repositories.AuthorizationClientCrudRepository;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.util.List;
 
 @Service
+@Transactional
 public class ClientAuthorizationService {
 
     private final AuthorizationClientCrudRepository authorizationClientCrudRepository;
@@ -17,7 +19,7 @@ public class ClientAuthorizationService {
         this.authorizationClientCrudRepository = authorizationClientCrudRepository;
     }
 
-    @Transactional
+    @Transactional(propagation = Propagation.NEVER)
     public void addClientToDataBase(Client client){
         List<Client> clientList = (List<Client>) authorizationClientCrudRepository.findAll();
         System.out.println(clientList.size());
@@ -25,7 +27,6 @@ public class ClientAuthorizationService {
         authorizationClientCrudRepository.save(client);
     }
 
-    @Transactional
     public Client checkLogInParameters(String email, String password){
         Client client = authorizationClientCrudRepository.findByEmailAndPassword(email, password);
         if(client != null)
