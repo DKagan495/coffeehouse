@@ -3,15 +3,12 @@ package com.example.coffeehouse.controllers;
 import com.example.coffeehouse.models.Client;
 import com.example.coffeehouse.models.constkits.AuthResult;
 import com.example.coffeehouse.services.ClientAuthorizationService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.Optional;
 
 @Controller
 public class AuthController {

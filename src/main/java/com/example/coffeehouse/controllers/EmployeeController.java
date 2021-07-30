@@ -3,7 +3,6 @@ package com.example.coffeehouse.controllers;
 import com.example.coffeehouse.models.constkits.AuthResult;
 import com.example.coffeehouse.services.EmployeeService;
 import com.example.coffeehouse.services.OrderService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
