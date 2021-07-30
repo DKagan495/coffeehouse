@@ -4,10 +4,10 @@ import com.example.coffeehouse.repositories.EmployeeRepository;
 import com.example.coffeehouse.repositories.OrderRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class MoneyTransferService {
 
     private final ClientService clientService;
@@ -23,6 +23,6 @@ public class MoneyTransferService {
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public void clientToEmployeeMoneyTransferByOrderId(int orderId){
         clientService.minusCurrnetClientMoney(orderRepository.findById(orderId).getTotalPrice());
-        employeeRepository.updEmployeesMoney(orderRepository.findById(orderId).getEmployeesId(), orderRepository.findById(orderId).getTotalPrice());
+        employeeRepository.updEmployeesMoney(orderRepository.findById(orderId).getEmployee().getId(), orderRepository.findById(orderId).getTotalPrice());
     }
 }

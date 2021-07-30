@@ -24,10 +24,10 @@
             <option th:unless="${cupsize.getSize()} == ${order.getCupSize()}" th:value="${cupsize.getSize()}" th:text="${cupsize.getSize()}">cupkind</option>
         </div>
     </select>
-    <select name="Select employee" th:field="*{employeesId}">
+    <select name="Select employee" th:field="*{employee}">
         <div th:each="employee : ${employees}">
-            <option th:if="${employee.getId} == ${order.getEmployeesId()}" th:value="${employee.getId()}" th:text="${employee.getName()} + ' ' + ${employee.getSurname()}">employee</option>
-            <option th:unless="${employee.getId} == ${order.getEmployeesId()}" th:value="${employee.getId()}" th:text="${employee.getName()} + ' ' + ${employee.getSurname()}">employee</option>
+            <option th:if="${employee.getId} == ${order.getEmployee().getId()}" th:value="${employee.getId()}" th:text="${employee.getName()} + ' ' + ${employee.getSurname()}">employee</option>
+            <option th:unless="${employee.getId} == ${order.getEmployee().getId()}" th:value="${employee.getId()}" th:text="${employee.getName()} + ' ' + ${employee.getSurname()}">employee</option>
         </div>
     </select>
     <input type="submit" value="Save changes">

@@ -8,5 +8,5 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 public interface AuthorizationClientCrudRepository extends CrudRepository<Client, Integer> {
-    public Client findByEmailAndPassword(String email, String password);
+    Client findByEmailAndPassword(String email, String password);
 }

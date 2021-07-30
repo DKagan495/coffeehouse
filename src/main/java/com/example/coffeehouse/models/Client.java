@@ -6,6 +6,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 public class Client {
@@ -30,6 +31,8 @@ public class Client {
     @Min(value = 12, message = "Age should be more than 12")
     private int age;
     private BigDecimal money;
+    @OneToMany(mappedBy = "client")
+    private List<Order> orderList;
     public Client(){
 
     }
@@ -106,5 +109,13 @@ public class Client {
 
     public void setMoney(BigDecimal money) {
         this.money = money;
+    }
+
+    public List<Order> getOrderList() {
+        return orderList;
+    }
+
+    public void setOrderList(List<Order> orderList) {
+        this.orderList = orderList;
     }
 }

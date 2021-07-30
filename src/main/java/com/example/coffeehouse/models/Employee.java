@@ -2,11 +2,9 @@ package com.example.coffeehouse.models;
 
 import com.example.coffeehouse.models.constkits.Rank;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 public class Employee {
@@ -20,6 +18,8 @@ public class Employee {
     private BigDecimal money;
     private String login;
     private String password;
+    @OneToMany(mappedBy = "employee")
+    private List<Order> orderList;
 
     public Employee() {
     }
@@ -96,5 +96,13 @@ public class Employee {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<Order> getOrderList() {
+        return orderList;
+    }
+
+    public void setOrderList(List<Order> orderList) {
+        this.orderList = orderList;
     }
 }

@@ -2,7 +2,6 @@ package com.example.coffeehouse.services;
 
 import com.example.coffeehouse.models.Client;
 import com.example.coffeehouse.repositories.ClientCrudRepostirory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,11 +50,10 @@ public class ClientService {
     public void updateClientLogInInfo(String email, String password){
         clientCrudRepostirory.updClientLogInInfo((long) httpSession.getAttribute("USER_ID"), email, password);
     }
-
-    @Transactional(propagation = Propagation.NEVER)
+    @Transactional
     public void deleteCurrentUserAccount(){
-        orderService.deleteClientOrders((long) httpSession.getAttribute("USER_ID"));
         clientCrudRepostirory.deleteById((long) httpSession.getAttribute("USER_ID"));
+        orderService.deleteClientOrders((long) httpSession.getAttribute("USER_ID"));
         httpSession.invalidate();
     }
 }

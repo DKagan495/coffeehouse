@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Coffee getting</title>
@@ -21,7 +21,7 @@
                 <option th:value="${cupsize.getSize()}" th:text="${cupsize.getSize()}">cupkind</option>
             </div>
         </select>
-        <select name="Select a cup" th:field="*{employeesId}">
+        <select name="Select a cup" th:field="*{employee}">
             <div th:each="employee : ${employees}">
                 <option th:value="${employee.getId()}" th:text="${employee.getName()} + ' ' + ${employee.getSurname()}">employee</option>
             </div>

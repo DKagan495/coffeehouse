@@ -16,12 +16,9 @@ public class ClientController {
 
     private final ClientService clientService;
 
-    private final OrderService orderService;
-
-    public ClientController(HttpSession httpSession, ClientService clientService, OrderService orderService) {
+    public ClientController(HttpSession httpSession, ClientService clientService) {
         this.httpSession = httpSession;
         this.clientService = clientService;
-        this.orderService = orderService;
     }
 
 
