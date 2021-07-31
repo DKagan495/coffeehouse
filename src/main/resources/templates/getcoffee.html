@@ -11,21 +11,25 @@
             <option th:value="${coffee.getName}" th:text="${coffee.getName}">coffee</option>
             </div>
         </select>
+        <br/>
         <select name="Select arabica" th:field="*{arabica}">
             <div th:each="arabica : ${arabicalist}">
                 <option th:value="${arabica}" th:text="${arabica}">arabica</option>
             </div>
         </select>
+        <br/>
         <select name="Select a cup" th:field="*{cupSize}">
             <div th:each="cupsize : ${cupsizes}">
                 <option th:value="${cupsize.getSize()}" th:text="${cupsize.getSize()}">cupkind</option>
             </div>
         </select>
+        <br/>
         <select name="Select a cup" th:field="*{employee}">
             <div th:each="employee : ${employees}">
                 <option th:value="${employee.getId()}" th:text="${employee.getName()} + ' ' + ${employee.getSurname()}">employee</option>
             </div>
         </select>
+        <br/>
         <input type="submit" value="Get">
     </form>
 </body>

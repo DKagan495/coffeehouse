@@ -2,6 +2,7 @@ package com.example.coffeehouse.controllers;
 
 import com.example.coffeehouse.models.constkits.AuthResult;
 import com.example.coffeehouse.services.ClientService;
+import com.example.coffeehouse.services.MoneyTransferService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,9 +16,12 @@ public class ClientController {
 
     private final ClientService clientService;
 
-    public ClientController(HttpSession httpSession, ClientService clientService) {
+    private final MoneyTransferService moneyTransferService;
+
+    public ClientController(HttpSession httpSession, ClientService clientService, MoneyTransferService moneyTransferService) {
         this.httpSession = httpSession;
         this.clientService = clientService;
+        this.moneyTransferService = moneyTransferService;
     }
 
 
@@ -54,7 +58,7 @@ public class ClientController {
 
     @PatchMapping("/getmoney")
     public String getMoneyReq(@RequestParam BigDecimal money){
-        clientService.moneyToCurrnetClient((long)httpSession.getAttribute("USER_ID"), money);
+        moneyTransferService.moneyToCurrentClient((long)httpSession.getAttribute("USER_ID"), money);
         return "redirect:/me";
     }
 

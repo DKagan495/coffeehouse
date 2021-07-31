@@ -31,11 +31,6 @@ public class ClientService {
         return (List<Client>) clientCrudRepostirory.findAll();
     }
 
-    @Transactional(isolation = Isolation.SERIALIZABLE)
-    public void moneyToCurrnetClient(long id, BigDecimal money){
-        clientCrudRepostirory.updMoney(id, money);
-    }
-
     @Transactional(propagation = Propagation.MANDATORY, isolation = Isolation.SERIALIZABLE)
     public void minusCurrnetClientMoney(long id, BigDecimal money){
         clientCrudRepostirory.updMoney(id, new BigDecimal(0).subtract(money));

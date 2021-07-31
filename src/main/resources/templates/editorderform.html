@@ -12,24 +12,28 @@
             <option th:unless="${coffee.getName} == ${order.getName()}" th:value="${coffee.getName}" th:text="${coffee.getName}">coffee</option>
         </div>
     </select>
+    <br/>
     <select name="Select arabica" th:field="*{arabica}">
         <div th:each="arabica : ${arabicalist}">
             <option th:if="${arabica} == ${order.getArabica()}" th:selected="${order.getArabica()}" th:value="${order.getArabica()}" th:text="${order.getArabica()}"></option>
             <option th:unless="${arabica} == ${order.getArabica()}" th:value="${arabica}" th:text="${arabica}">arabica</option>
         </div>
     </select>
+    <br/>
     <select name="Select a cup" th:field="*{cupSize}">
         <div th:each="cupsize : ${T(com.example.coffeehouse.models.constkits.CupSizes).values()}">
             <option th:if="${cupsize.getSize()} == ${order.getCupSize()}" th:selected="${order.getCupSize()}" th:value="${order.getCupSize()}" th:text="${order.getCupSize()}"></option>
             <option th:unless="${cupsize.getSize()} == ${order.getCupSize()}" th:value="${cupsize.getSize()}" th:text="${cupsize.getSize()}">cupkind</option>
         </div>
     </select>
+    <br/>
     <select name="Select employee" th:field="*{employee}">
         <div th:each="employee : ${employees}">
             <option th:if="${employee.getId} == ${order.getEmployee().getId()}" th:value="${employee.getId()}" th:text="${employee.getName()} + ' ' + ${employee.getSurname()}">employee</option>
             <option th:unless="${employee.getId} == ${order.getEmployee().getId()}" th:value="${employee.getId()}" th:text="${employee.getName()} + ' ' + ${employee.getSurname()}">employee</option>
         </div>
     </select>
+    <br/>
     <input type="submit" value="Save changes">
 </form>
 </body>
