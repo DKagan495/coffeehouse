@@ -73,7 +73,7 @@ public class OrderController{
     public String employeeOrders(@PathVariable int id, Model model) {
         if(httpSession.getAttribute("AUTHORIZATION_RESULT_EMPLOYEE") != AuthResult.VALID && httpSession.getAttribute("AUTHORIZATION_RESULT_CLIENT") != AuthResult.VALID)
             return "redirect:/auth";
-        model.addAttribute("myorders", employeeService.getEmployee(id).getOrderList());
+        model.addAttribute("myorders", employeeService.getEmployee(id).getOrderList().stream().filter(order -> !order.getStatus().equals(OrderStatus.TAKEN.getStatus()) && !order.getStatus().equals(OrderStatus.COMPLETE.getStatus())).collect(Collectors.toList()));
         return "myorders";
     }
 
@@ -115,12 +115,14 @@ public class OrderController{
         if(clientService.toClientPage((long) httpSession.getAttribute("USER_ID")).getMoney().compareTo(orderService.getOrder(id).getTotalPrice()) < 0)
             return "redirect:/orders/" + id;
         orderService.setTakenStatus(id);
-        moneyTransferService.clientToEmployeeMoneyTransferByOrderId(id);
+        moneyTransferService.clientToEmployeeMoneyTransferByOrderId((long)httpSession.getAttribute("USER_ID"), id);
         return "redirect:/me";
     }
 
     @GetMapping("/orders/{id}/edit")
     public String toEditOrderForm(@PathVariable int id, Model model){
+        if(httpSession.getAttribute("AUTHORIZATION_RESULT_CLIENT") != AuthResult.VALID)
+            return "redirect:/auth";
         if(orderService.getOrder(id).getStatus().equals(OrderStatus.NOTSTARTED.getStatus()) && orderService.getOrder(id).getClient().getId() == (long) httpSession.getAttribute("USER_ID") && httpSession.getAttribute("USER_ROLE").equals("client")) {
             model.addAttribute("order", orderService.getOrder(id));
             model.addAttribute("employees", employeeService.getAllEmployees());

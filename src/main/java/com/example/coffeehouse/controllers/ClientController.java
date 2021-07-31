@@ -54,7 +54,7 @@ public class ClientController {
 
     @PatchMapping("/getmoney")
     public String getMoneyReq(@RequestParam BigDecimal money){
-        clientService.moneyToCurrnetClient(money);
+        clientService.moneyToCurrnetClient((long)httpSession.getAttribute("USER_ID"), money);
         return "redirect:/me";
     }
 
@@ -68,25 +68,27 @@ public class ClientController {
 
     @PatchMapping("/edit")
     public String saveUpdGeneralsChanges(@RequestParam String name, @RequestParam String surname, @RequestParam int age, @RequestParam String sex){
-
-        clientService.updateClientGeneralInfo(name, surname, age, sex);
+        clientService.updateClientGeneralInfo((long)httpSession.getAttribute("USER_ID"), name, surname, age, sex);
         return "redirect:/me";
     }
 
     @GetMapping("/edit/log")
     public String getUpdateLogInParamsForm(Model model){
+        if(httpSession.getAttribute("AUTHORIZATION_RESULT_CLIENT") != AuthResult.VALID)
+            return "redirect:/auth";
         model.addAttribute("client", clientService.toClientPage((long)httpSession.getAttribute("USER_ID")));
         return "editlogform";
     }
 
     @PatchMapping("/edit/log")
     public String saveUpdLogInChanges(@RequestParam String email, @RequestParam String password){
-        clientService.updateClientLogInInfo(email, password);
+        clientService.updateClientLogInInfo((long)httpSession.getAttribute("USER_ID"), email, password);
         return "redirect:/me";
     }
     @DeleteMapping("/delete")
     public String deleteUser(){
-        clientService.deleteCurrentUserAccount();
+        clientService.deleteCurrentUserAccount((long)httpSession.getAttribute("USER_ID"));
+        httpSession.invalidate();
         return "redirect:/auth";
     }
 }

@@ -21,8 +21,8 @@ public class MoneyTransferService {
     }
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
-    public void clientToEmployeeMoneyTransferByOrderId(int orderId){
-        clientService.minusCurrnetClientMoney(orderRepository.findById(orderId).getTotalPrice());
+    public void clientToEmployeeMoneyTransferByOrderId(long id, int orderId){
+        clientService.minusCurrnetClientMoney(id, orderRepository.findById(orderId).getTotalPrice());
         employeeRepository.updEmployeesMoney(orderRepository.findById(orderId).getEmployee().getId(), orderRepository.findById(orderId).getTotalPrice());
     }
 }

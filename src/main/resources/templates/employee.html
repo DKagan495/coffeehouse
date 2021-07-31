@@ -18,7 +18,7 @@
   <a th:unless="${employee.getId()} == ${#httpSession.getAttribute('USER_ID')}" th:href="@{'/employees/' + ${employee.getId()} + '/orders'}" th:text="${employee.getName()} + ' orders'"></a>
 </div>
 <div th:if="${#httpSession.getAttribute('USER_ROLE') == 'client'}">
-  <a th:href="@{'/employee/' + ${employee.getId()} + '/orders'}" th:text="${employee.getName()} + ' orders'"></a>
+  <a th:href="@{'/employees/' + ${employee.getId()} + '/orders'}" th:text="${employee.getName()} + ' orders'"></a>
 </div>
 <a th:if="${#httpSession.getAttribute('USER_ROLE') == 'employee'} and ${employee.getId()} == ${#httpSession.getAttribute('USER_ID')}" th:href="@{/logout}">Log out</a>
 </body>
