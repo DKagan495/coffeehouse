@@ -8,21 +8,39 @@
 <style>
     .sidebar{
         font-family: "Bradley Hand ITC";
-        font-size: 25px;
+        font-size: 45px;
         font-weight: bold;
+        color: whitesmoke;
+    }
+    body{
+        background-image: url("https://www.brampton.ca/EN/Business/BEC/whatsNew/PublishingImages/10000-forstory.jpg");
+    }
+    a{
+        text-decoration: none;
+        color: whitesmoke;
+    }
+    a:hover{
+        font-size: 57px;
+        color: forestgreen;
     }
     .client{
-        font-family: "Comic Sans MS";
+        font-family: "Calibri";
         font-size: 48px;
-        font-weight: bold;
+        text-align: center;
         margin: 0;
+        height: auto;
+        width: 600px;
+        backdrop-filter: blur(12px);
+        color: whitesmoke;
+        border: 3px solid;
+        border-radius: 19px;
     }
     nav{
         display: flex;
         justify-content: left;
     }
+
 </style>
-<nav>
     <div class="sidebar" style="float: left" th:if="${#httpSession.getAttribute('USER_ROLE') == 'client'}">
         <a th:unless="${client.getId} == ${#httpSession.getAttribute('USER_ID')}" th:href="@{/me}">My page</a><br/>
         <p th:if="${client.getId} == ${#httpSession.getAttribute('USER_ID')}">My page</p>
@@ -38,12 +56,11 @@
             <input type="submit" value="Delete account">
         </form>
     </div>
-<div class="client" align="center">
+<div class="client" style="float: right" align="center">
     <p th:text="${client.getName()} + ' ' + ${client.getSurname()}">client</p>
     <p th:text="${client.getSex}">client</p>
     <p th:text="${client.getAge} + ' years old'">client</p>
     <p th:if="${#httpSession.getAttribute('USER_ROLE') == 'client'} and ${client.getId} == ${#httpSession.getAttribute('USER_ID')}" th:text="'Money: ' + ${client.getMoney()} + ' BYN'">client</p><br/>
 </div>
-</nav>
 </body>
 </html>
