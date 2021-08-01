@@ -4,9 +4,38 @@
     <meta charset="UTF-8">
     <title>Clients</title>
 </head>
+<style>
+    .sidebar{
+        font-family: "Bradley Hand ITC";
+        font-size: 25px;
+        font-weight: bold;
+    }
+    .clients{
+        font-family: "Comic Sans MS";
+        font-size: 48px;
+        font-weight: bold;
+        margin: 0;
+    }
+</style>
 <body>
-<div th:each="client : ${clients}">
-  <a th:href="@{'/clients/' + ${client.getId}}" th:text="${client.getName} + ' ' + ${client.getSurname}">client</a>
+<nav>
+    <div class="sidebar" style="float: left" th:if="${#httpSession.getAttribute('USER_ROLE') == 'client'}">
+        <a th:href="@{/me}">My page</a>
+        <a th:href="@{/getcoffee}">Get coffee</a><br/>
+        <a th:href="@{/myorders}">My orders</a><br/>
+        <p>Our clients</p>
+        <a th:href="@{/myorders/complete}">Complete orders</a><br/>
+        <a th:href="@{/myorders/taken}">Taken orders</a><br/>
+        <a th:href="@{/getmoney}">Make a deposit</a><br/>
+        <a th:href="@{/edit}">Account settings</a><br/>
+        <a th:href="@{/logout}">Log Out</a><br/>
+        <form th:method="DELETE" th:action="@{/delete}">
+            <input type="submit" value="Delete account">
+        </form>
+    </div>
+<div class="clients" align="center" th:each="client : ${clients}">
+  <a th:href="@{'/clients/' + ${client.getId}}" th:text="${client.getName} + ' ' + ${client.getSurname}">client</a><br/>
 </div>
+</nav>
 </body>
 </html>

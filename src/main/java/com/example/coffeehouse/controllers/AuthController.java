@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.sql.SQLException;
 
 @Controller
 public class AuthController {
@@ -33,7 +34,13 @@ public class AuthController {
     public String regMapping(@ModelAttribute @Valid Client client, BindingResult bindingResult){
         if(bindingResult.hasErrors())
             return "regform";
-        clientAuthorizationService.addClientToDataBase(client);
+        try {
+            clientAuthorizationService.addClientToDataBase(client);
+        }
+        catch(Exception exception){
+            System.out.println("I`ll catch it");
+            return "regform";
+        }
         httpSession.setAttribute("USER_ID", client.getId());
         System.out.println("Session id during registration is " + httpSession.getAttribute("USER_ID"));
         httpSession.setAttribute("USER_ROLE", "client");
