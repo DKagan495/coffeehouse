@@ -4,7 +4,65 @@
     <meta charset="UTF-8">
     <title>Coffee getting</title>
 </head>
+<style>
+    .sidebar{
+        font-family: "Bradley Hand ITC";
+        font-size: 45px;
+        font-weight: bold;
+        color: whitesmoke;
+    }
+    body{
+        background-image: url("https://www.brampton.ca/EN/Business/BEC/whatsNew/PublishingImages/10000-forstory.jpg");
+    }
+    a{
+        text-decoration: none;
+        color: whitesmoke;
+    }
+    a:hover{
+        font-size: 57px;
+        color: forestgreen;
+    }
+    .content{
+        font-family: "Calibri";
+        font-size: 36px;
+        text-align: center;
+        width: 400px;
+        height: auto;
+        margin: 0 auto;
+        backdrop-filter: blur(12px);
+        color: whitesmoke;
+        border: 3px solid;
+        border-radius: 19px;
+    }
+    form{
+        align-items: center;
+        margin: 0 auto;
+    }
+    input{
+        width: 360px;
+        height: 36px;
+        margin: 0;
+    }
+    select{
+        width: 360px;
+        height: 36px;
+        margin: 0;
+        font-size: large;
+    }
+</style>
 <body>
+<div class="sidebar" style="float: left">
+    <a th:href="@{/me}">My page</a><br/>
+    <p style="color: forestgreen">Get coffee</p>
+    <a th:href="@{/myorders}">My orders</a><br/>
+    <a th:href="@{/clients}">Our clients</a><br/>
+    <a th:href="@{/myorders/complete}">Complete orders</a><br/>
+    <a th:href="@{/myorders/taken}">Taken orders</a><br/>
+    <a th:href="@{/getmoney}">Make a deposit</a><br/>
+    <a th:href="@{/edit}">Account settings</a><br/>
+    <a th:href="@{/logout}">Log Out</a><br/>
+</div>
+<div class="content">
     <form method="post" th:object="${orderdto}">
         <select name="Select coffee" th:field="*{name}">
             <div th:each="coffee : ${coffeelist}">
@@ -32,5 +90,6 @@
         <br/>
         <input type="submit" value="Get">
     </form>
+</div>
 </body>
 </html>

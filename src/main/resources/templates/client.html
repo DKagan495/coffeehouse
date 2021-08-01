@@ -27,7 +27,7 @@
         font-family: "Calibri";
         font-size: 48px;
         text-align: center;
-        margin: 0;
+        margin: 0 auto;
         height: auto;
         width: 600px;
         backdrop-filter: blur(12px);
@@ -56,7 +56,7 @@
             <input type="submit" value="Delete account">
         </form>
     </div>
-<div class="client" style="float: right" align="center">
+<div class="client" align="center">
     <p th:text="${client.getName()} + ' ' + ${client.getSurname()}">client</p>
     <p th:text="${client.getSex}">client</p>
     <p th:text="${client.getAge} + ' years old'">client</p>

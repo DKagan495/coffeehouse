@@ -17,6 +17,11 @@ public class ClientAuthorizationService {
     public ClientAuthorizationService(AuthorizationClientCrudRepository authorizationClientCrudRepository) {
         this.authorizationClientCrudRepository = authorizationClientCrudRepository;
     }
+     public boolean isHereClientWithThisEmail(String email){
+        if(authorizationClientCrudRepository.findByEmail(email) != null)
+            return true;
+        return false;
+     }
 
     public void addClientToDataBase(Client client){
         List<Client> clientList = (List<Client>) authorizationClientCrudRepository.findAll();
