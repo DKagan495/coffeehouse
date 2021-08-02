@@ -6,34 +6,39 @@ import com.example.coffeehouse.models.Employee;
 import com.example.coffeehouse.models.constkits.AuthResult;
 import com.example.coffeehouse.models.constkits.CupSizes;
 import com.example.coffeehouse.models.constkits.OrderStatus;
-import com.example.coffeehouse.services.ClientService;
-import com.example.coffeehouse.services.CoffeeService;
-import com.example.coffeehouse.services.EmployeeService;
-import com.example.coffeehouse.services.OrderService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.coffeehouse.services.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Controller
 public class OrderController{
-    @Autowired
-    HttpSession httpSession;
 
-    @Autowired
-    OrderService orderService;
+    private final HttpSession httpSession;
 
-    @Autowired
-    EmployeeService employeeService;
+    private final OrderService orderService;
 
-    @Autowired
-    ClientService clientService;
+    private final EmployeeService employeeService;
 
-    @Autowired
-    CoffeeService coffeeService;
+    private final ClientService clientService;
+
+    private final CoffeeService coffeeService;
+
+    private final MoneyTransferService moneyTransferService;
+
+    public OrderController(HttpSession httpSession, OrderService orderService, EmployeeService employeeService, ClientService clientService, CoffeeService coffeeService, MoneyTransferService moneyTransferService) {
+        this.httpSession = httpSession;
+        this.orderService = orderService;
+        this.employeeService = employeeService;
+        this.clientService = clientService;
+        this.coffeeService = coffeeService;
+        this.moneyTransferService = moneyTransferService;
+    }
 
     @ModelAttribute("insfundsmsg")
     public String noPay(){
@@ -53,26 +58,32 @@ public class OrderController{
     public String currentUserOrders(Model model){
         if(httpSession.getAttribute("AUTHORIZATION_RESULT_EMPLOYEE") != AuthResult.VALID && httpSession.getAttribute("AUTHORIZATION_RESULT_CLIENT") != AuthResult.VALID)
             return "redirect:/auth";
-        if(httpSession.getAttribute("USER_ROLE").equals("employee"))
-            model.addAttribute("myorders", orderService.getCurrentEmployeeOrders());
-        if (httpSession.getAttribute("USER_ROLE").equals("client"))
-            model.addAttribute("myorders", orderService.getCurrentClientOrders());
+        if(httpSession.getAttribute("USER_ROLE").equals("employee")) {
+           List<Order> employeeOrders = employeeService.getEmployee((int) httpSession.getAttribute("USER_ID")).getOrderList().stream().filter(order -> !order.getStatus().equals(OrderStatus.COMPLETE.getStatus()) && !order.getStatus().equals(OrderStatus.TAKEN.getStatus())).collect(Collectors.toList());
+            model.addAttribute("myorders", employeeOrders);
+        }
+        if (httpSession.getAttribute("USER_ROLE").equals("client")) {
+            List<Order> clientOrders = clientService.toClientPage((long) httpSession.getAttribute("USER_ID")).getOrderList().stream().filter(order -> !order.getStatus().equals(OrderStatus.COMPLETE.getStatus()) && !order.getStatus().equals(OrderStatus.TAKEN.getStatus())).collect(Collectors.toList());
+            model.addAttribute("myorders", clientOrders);
+        }
         return "myorders";
     }
+
     @GetMapping("/employees/{id}/orders")
     public String employeeOrders(@PathVariable int id, Model model) {
         if(httpSession.getAttribute("AUTHORIZATION_RESULT_EMPLOYEE") != AuthResult.VALID && httpSession.getAttribute("AUTHORIZATION_RESULT_CLIENT") != AuthResult.VALID)
             return "redirect:/auth";
-        model.addAttribute("myorders", orderService.getEmployeeOrders(id));
+        model.addAttribute("myorders", employeeService.getEmployee(id).getOrderList().stream().filter(order -> !order.getStatus().equals(OrderStatus.TAKEN.getStatus()) && !order.getStatus().equals(OrderStatus.COMPLETE.getStatus())).collect(Collectors.toList()));
         return "myorders";
     }
+
     @GetMapping("/orders/{id}")
     public String employeeOrder(@PathVariable int id, Model model){
         if(httpSession.getAttribute("AUTHORIZATION_RESULT_EMPLOYEE") != AuthResult.VALID && httpSession.getAttribute("AUTHORIZATION_RESULT_CLIENT") != AuthResult.VALID)
             return "redirect:/auth";
-        System.out.println(orderService.getOrder(id).getClientId() + "clientsId");
-        Client client = clientService.toClientPage(orderService.getOrder(id).getClientId());
-        Employee employee = employeeService.getEmployee(orderService.getOrder(id).getEmployeesId());
+        System.out.println(orderService.getOrder(id).getClient().getId() + "clientsId");
+        Client client = clientService.toClientPage(orderService.getOrder(id).getClient().getId());
+        Employee employee = employeeService.getEmployee(orderService.getOrder(id).getEmployee().getId());
         model.addAttribute("client", client);
         model.addAttribute("employee", employee);
         model.addAttribute("order", orderService.getOrder(id));
@@ -83,7 +94,8 @@ public class OrderController{
     public String getMyCompleteOrders(Model model){
         if(httpSession.getAttribute("AUTHORIZATION_RESULT_CLIENT") != AuthResult.VALID)
             return "redirect:/auth";
-        model.addAttribute("myorders", orderService.getCurrentClientCompleteOrders());
+        List<Order> completeOrders = clientService.toClientPage((long) httpSession.getAttribute("USER_ID")).getOrderList().stream().filter(o->o.getStatus().equals(OrderStatus.COMPLETE.getStatus())).collect(Collectors.toList());
+        model.addAttribute("myorders", completeOrders);
         return "myorders";
     }
 
@@ -91,7 +103,8 @@ public class OrderController{
     public String getMyTakenOrders(Model model){
         if(httpSession.getAttribute("AUTHORIZATION_RESULT_CLIENT") != AuthResult.VALID)
             return "redirect:/auth";
-        model.addAttribute("myorders", orderService.getCurrentClientTakenOrders());
+        List<Order> takenOrders = clientService.toClientPage((long) httpSession.getAttribute("USER_ID")).getOrderList().stream().filter(o->o.getStatus().equals(OrderStatus.TAKEN.getStatus())).collect(Collectors.toList());
+        model.addAttribute("myorders", takenOrders);
         return "myorders";
     }
 
@@ -99,16 +112,18 @@ public class OrderController{
     public String getOrderByClient(@PathVariable int id){
         if(httpSession.getAttribute("AUTHORIZATION_RESULT_CLIENT") != AuthResult.VALID)
             return "redirect:/auth";
-        if(clientService.toClientPage((int) httpSession.getAttribute("USER_ID")).getMoney().compareTo(orderService.getOrder(id).getTotalPrice()) < 0)
+        if(clientService.toClientPage((long) httpSession.getAttribute("USER_ID")).getMoney().compareTo(orderService.getOrder(id).getTotalPrice()) < 0)
             return "redirect:/orders/" + id;
         orderService.setTakenStatus(id);
-        clientService.moneyToCurrnetClient(new BigDecimal(0).subtract(orderService.getOrder(id).getTotalPrice()));
+        moneyTransferService.clientToEmployeeMoneyTransferByOrderId((long)httpSession.getAttribute("USER_ID"), id);
         return "redirect:/me";
     }
 
     @GetMapping("/orders/{id}/edit")
     public String toEditOrderForm(@PathVariable int id, Model model){
-        if(orderService.getOrder(id).getStatus().equals(OrderStatus.NOTSTARTED.getStatus()) && orderService.getOrder(id).getClientId() == (int) httpSession.getAttribute("USER_ID") && httpSession.getAttribute("USER_ROLE").equals("client")) {
+        if(httpSession.getAttribute("AUTHORIZATION_RESULT_CLIENT") != AuthResult.VALID)
+            return "redirect:/auth";
+        if(orderService.getOrder(id).getStatus().equals(OrderStatus.NOTSTARTED.getStatus()) && orderService.getOrder(id).getClient().getId() == (long) httpSession.getAttribute("USER_ID") && httpSession.getAttribute("USER_ROLE").equals("client")) {
             model.addAttribute("order", orderService.getOrder(id));
             model.addAttribute("employees", employeeService.getAllEmployees());
             model.addAttribute("coffeelist", coffeeService.getAllCoffies());
@@ -122,7 +137,7 @@ public class OrderController{
     @PatchMapping("/orders/{id}/edit")
     public String updateOrder(@PathVariable int id, @ModelAttribute("order") Order order){
         BigDecimal totalPrice = coffeeService.getCostWithoutEmployeesRank(order.getName(), order.getArabica(), Stream.of(CupSizes.values()).filter(c->c.getSize().equals(order.getCupSize())).findFirst().orElseThrow(IllegalArgumentException::new).getCost());
-        orderService.updOrder(order.getId(), order.getName(), order.getArabica(), order.getCupSize(), order.getEmployeesId(), totalPrice);
+        orderService.updOrder(order.getId(), order.getName(), order.getArabica(), order.getCupSize(), order.getEmployee(), totalPrice);
         return "redirect:/orders/" + order.getId();
     }
 

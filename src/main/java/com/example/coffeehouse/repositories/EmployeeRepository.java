@@ -11,5 +11,5 @@ import java.math.BigDecimal;
 public interface EmployeeRepository extends CrudRepository<Employee, Integer> {
     @Modifying
     @Query("update Employee e set e.money = e.money + :money where e.id = :id")
-    public void updEmployeesMoney(@Param("id") int id, @Param("money") BigDecimal money);
+    void updEmployeesMoney(@Param("id") int id, @Param("money") BigDecimal money);
 }

@@ -8,14 +8,20 @@ import java.math.RoundingMode;
 @Table(name = "orders")
 public class Order {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "serial")
     private int id;
-    private int employeesId;
-    private int clientId;
     private String name;
     private String arabica;
     private String cupSize;
     private BigDecimal totalPrice;
     private String status;
+    @ManyToOne
+    @JoinColumn(name = "client_id")
+    private Client client;
+    @ManyToOne
+    @JoinColumn(name = "employees_id")
+    private Employee employee;
 
     public Order() {
     }
@@ -27,22 +33,6 @@ public class Order {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getEmployeesId() {
-        return employeesId;
-    }
-
-    public void setEmployeesId(int employeesId) {
-        this.employeesId = employeesId;
-    }
-
-    public int getClientId() {
-        return clientId;
-    }
-
-    public void setClientId(int clientId) {
-        this.clientId = clientId;
     }
 
     public String getName() {
@@ -84,5 +74,21 @@ public class Order {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 }

@@ -4,13 +4,57 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
+<style>
+    body{
+        background-image: url("https://www.brampton.ca/EN/Business/BEC/whatsNew/PublishingImages/10000-forstory.jpg");
+    }
+    a{
+        text-decoration: none;
+        color: whitesmoke;
+        font-size: 45px;
+    }
+    a:hover{
+        font-size: 57px;
+        color: forestgreen;
+    }
+    .content{
+        font-family: "Calibri";
+        font-size: 36px;
+        text-align: center;
+        width: 400px;
+        height: auto;
+        margin: 0 auto;
+        backdrop-filter: blur(12px);
+        color: whitesmoke;
+        border: 3px solid;
+        border-radius: 19px;
+    }
+    form{
+        align-items: center;
+        margin: 0 auto;
+    }
+    input{
+        width: 360px;
+        height: 36px;
+        margin: 0;
+        font-size: large;
+    }
+    select{
+        width: 360px;
+        height: 36px;
+        margin: 0;
+        font-size: large;
+    }
+</style>
 <body>
+<div class="content">
     <form th:method="post" th:object="${client}">
         <p style="color: red" th:if="${#fields.hasErrors()}" th:errors="*{name}">Not valid name</p>
         <input type="text" th:field="*{name}" id="name" placeholder="Enter your name"><br/>
         <p style="color: red" th:if="${#fields.hasErrors()}" th:errors="*{surname}">Not valid surname</p>
         <input type="text" th:field="*{surname}" id="surname" placeholder="Enter your surname"><br/>
         <p style="color: red" th:if="${#fields.hasErrors()}" th:errors="*{email}">Not valid email</p>
+        <p style="color: red" th:if="${isTheSecondEmail}">User with this email has already registered</p>
         <input type="email" th:field="*{email}" id="email" placeholder="Enter your email"><br/>
         <p style="color: red" th:if="${#fields.hasErrors()}" th:errors="*{password}">Not valid password</p>
         <input type="password" th:field="*{password}" id="password" placeholder="Devise your password"><br/>
@@ -22,5 +66,6 @@
         </select>
         <input type="submit" value="Do">
     </form>
+</div>
 </body>
 </html>

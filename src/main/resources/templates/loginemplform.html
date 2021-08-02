@@ -4,7 +4,48 @@
   <meta charset="UTF-8">
   <title>Only for employees</title>
 </head>
+<style>
+  body{
+    background-image: url("https://www.brampton.ca/EN/Business/BEC/whatsNew/PublishingImages/10000-forstory.jpg");
+  }
+  a{
+    text-decoration: none;
+    color: whitesmoke;
+  }
+  a:hover{
+    font-size: 57px;
+    color: forestgreen;
+  }
+  .content{
+    font-family: "Calibri";
+    font-size: 36px;
+    text-align: center;
+    width: 400px;
+    height: auto;
+    margin: 0 auto;
+    backdrop-filter: blur(12px);
+    color: whitesmoke;
+    border: 3px solid;
+    border-radius: 19px;
+  }
+  form{
+    align-items: center;
+    margin: 0 auto;
+  }
+  input{
+    width: 360px;
+    height: 36px;
+    margin: 0;
+  }
+  select{
+    width: 360px;
+    height: 36px;
+    margin: 0;
+    font-size: large;
+  }
+</style>
 <body>
+<div class="content">
 <form method="post">
   <h1>ONLY FOR EMPLOYEES</h1>
   <p style="color: red" th:if="${#httpSession} != null and ${#httpSession.getAttribute('AUTHORIZATION_RESULT_EMPLOYEE')} == ${T(com.example.coffeehouse.models.constkits.AuthResult).INVALID}">Invalid email or password</p>
@@ -12,5 +53,6 @@
   <input type="password" name="password" id="password" placeholder="Password">
   <input type="submit" value="Log In">
 </form>
+</div>
 </body>
 </html>

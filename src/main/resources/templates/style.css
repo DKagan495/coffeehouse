@@ -1,0 +1,33 @@
+.sidebar{
+    font-family: "Bradley Hand ITC";
+    font-size: 45px;
+    font-weight: bold;
+    color: whitesmoke;
+}
+body{
+    background-image: url("https://www.brampton.ca/EN/Business/BEC/whatsNew/PublishingImages/10000-forstory.jpg");
+}
+a{
+    text-decoration: none;
+    color: whitesmoke;
+}
+a:hover{
+    font-size: 57px;
+    color: forestgreen;
+}
+.client{
+    font-family: "Calibri";
+    font-size: 48px;
+    text-align: center;
+    margin: 0;
+    height: auto;
+    width: 600px;
+    backdrop-filter: blur(12px);
+    color: whitesmoke;
+    border: 3px solid;
+    border-radius: 19px;
+}
+nav{
+    display: flex;
+    justify-content: left;
+}

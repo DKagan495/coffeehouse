@@ -4,7 +4,43 @@
     <meta charset="UTF-8">
     <title>Log In</title>
 </head>
+<style>
+    body{
+        background-image: url("https://www.brampton.ca/EN/Business/BEC/whatsNew/PublishingImages/10000-forstory.jpg");
+    }
+    a{
+        text-decoration: none;
+        color: whitesmoke;
+        font-size: 30px;
+    }
+    a:hover{
+        font-size: 57px;
+        color: forestgreen;
+    }
+    .content{
+        font-family: "Calibri";
+        font-size: 36px;
+        text-align: center;
+        width: 400px;
+        height: auto;
+        margin: 0 auto;
+        backdrop-filter: blur(12px);
+        color: whitesmoke;
+        border: 3px solid;
+        border-radius: 19px;
+    }
+    form{
+        align-items: center;
+        margin: 0 auto;
+    }
+    input{
+        width: 360px;
+        height: 36px;
+        margin: 0;
+    }
+</style>
 <body>
+<div class="content">
   <form method="post">
     <input type="email" name="email" id="email" placeholder="Email">
     <input type="password" name="password" id="password" placeholder="Password">
@@ -13,6 +49,9 @@
   <p style="color: red" th:if="${#httpSession} != null and ${#httpSession.getAttribute('AUTHORIZATION_RESULT_CLIENT')} == ${T(com.example.coffeehouse.models.constkits.AuthResult).INVALID}">Invalid email or password</p>
   <a href="/reg">Create account</a><br/>
 <br/>
+</div>
+<div align="center">
 <a href="/emplauth">Log In like employee</a>
+</div>
 </body>
 </html>

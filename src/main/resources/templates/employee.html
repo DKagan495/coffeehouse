@@ -4,22 +4,81 @@
   <meta charset="UTF-8">
   <title>Client</title>
 </head>
+<style>
+  .sidebar{
+    font-family: "Bradley Hand ITC";
+    font-size: 45px;
+    font-weight: bold;
+    color: whitesmoke;
+  }
+  body{
+    background-image: url("https://www.brampton.ca/EN/Business/BEC/whatsNew/PublishingImages/10000-forstory.jpg");
+  }
+  a{
+    text-decoration: none;
+    color: whitesmoke;
+    font-size: 30px;
+  }
+  a:hover{
+    font-size: 57px;
+    color: forestgreen;
+  }
+  .content{
+    font-family: "Calibri";
+    font-size: 36px;
+    text-align: center;
+    width: 400px;
+    height: auto;
+    margin: 0 auto;
+    backdrop-filter: blur(12px);
+    color: whitesmoke;
+    border: 3px solid;
+    border-radius: 19px;
+  }
+  form{
+    align-items: center;
+    margin: 0 auto;
+  }
+  input{
+    width: 360px;
+    height: 36px;
+    margin: 0;
+  }
+</style>
 <body>
-<h4>Employee`s card</h4>
+<div class="sidebar" style="float: left">
+  <div th:if="${#httpSession.getAttribute('USER_ROLE') == 'employee'}">
+    <a th:if="${employee.getId()} == ${#httpSession.getAttribute('USER_ID')}" href="/myorders">My orders</a><br/>
+    <a th:if="${employee.getId()} == ${#httpSession.getAttribute('USER_ID')}" href="/orders">All orders</a>
+  </div>
+  <div th:if="${#httpSession.getAttribute('USER_ROLE') == 'employee'}">
+    <a th:unless="${employee.getId()} == ${#httpSession.getAttribute('USER_ID')}" th:href="@{'/employees/' + ${employee.getId()} + '/orders'}" th:text="${employee.getName()} + ' orders'"></a>
+  </div>
+  <a th:if="${#httpSession.getAttribute('USER_ROLE') == 'employee'} and ${employee.getId()} == ${#httpSession.getAttribute('USER_ID')}" th:href="@{/logout}">Log out</a>
+</div>
+<div class="sidebar" style="float: left" th:if="${#httpSession.getAttribute('USER_ROLE') == 'client'}">
+  <a th:href="@{/me}">My page</a><br/>
+  <a th:href="@{/getcoffee}">Get coffee</a><br/>
+  <a th:href="@{/myorders}">My orders</a><br/>
+  <a th:href="@{/clients}">Our clients</a><br/>
+  <a th:href="@{/myorders/complete}">Complete orders</a><br/>
+  <a th:href="@{/myorders/taken}">Taken orders</a><br/>
+  <a th:href="@{/getmoney}">Make a deposit</a><br/>
+  <a th:href="@{/edit}">Account settings</a><br/>
+  <a th:href="@{/logout}">Log Out</a><br/>
+  <form th:method="DELETE" th:action="@{/delete}">
+    <input type="submit" value="Delete account">
+  </form>
+</div>
+<div class="content" align="center">
+<p>Employee`s card</p>
 <p th:text="${employee.getName()} + ' ' + ${employee.getSurname()}">employee</p>
 <p th:text="${employee.getAge} + ' years old'">employee</p>
 <p th:text="'Rank: ' + ${employee.getRank.getKind}">employee</p>
 <p th:if="${#httpSession.getAttribute('USER_ROLE') == 'employee'}" th:text="${employee.getMoney()} + ' BYN'">employee</p>
-<div th:if="${#httpSession.getAttribute('USER_ROLE') == 'employee'}">
-  <a th:if="${employee.getId()} == ${#httpSession.getAttribute('USER_ID')}" href="/myorders">My orders</a>
-  <a th:if="${employee.getId()} == ${#httpSession.getAttribute('USER_ID')}" href="/orders">All orders</a>
 </div>
-<div th:if="${#httpSession.getAttribute('USER_ROLE') == 'employee'}">
-  <a th:unless="${employee.getId()} == ${#httpSession.getAttribute('USER_ID')}" th:href="@{'/employees/' + ${employee.getId()} + '/orders'}" th:text="${employee.getName()} + ' orders'"></a>
+<div align="center" th:if="${#httpSession.getAttribute('USER_ROLE') == 'client'}">
+  <a th:href="@{'/employees/' + ${employee.getId()} + '/orders'}" th:text="${employee.getName()} + ' orders'"></a>
 </div>
-<div th:if="${#httpSession.getAttribute('USER_ROLE') == 'client'}">
-  <a th:href="@{'/employee/' + ${employee.getId()} + '/orders'}" th:text="${employee.getName()} + ' orders'"></a>
-</div>
-<a th:if="${#httpSession.getAttribute('USER_ROLE') == 'employee'} and ${employee.getId()} == ${#httpSession.getAttribute('USER_ID')}" th:href="@{/logout}">Log out</a>
 </body>
 </html>

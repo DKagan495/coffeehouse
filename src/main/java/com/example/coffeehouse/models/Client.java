@@ -1,17 +1,19 @@
 package com.example.coffeehouse.models;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 public class Client {
     @Id
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "serial")
+    private long id;
     @NotEmpty(message = "Field name is empty")
     @Size(min = 2, max = 28, message = "Name is not valid")
     private String name;
@@ -29,10 +31,12 @@ public class Client {
     @Min(value = 12, message = "Age should be more than 12")
     private int age;
     private BigDecimal money;
+    @OneToMany(mappedBy = "client")
+    private List<Order> orderList;
     public Client(){
 
     }
-    public Client(int id, String name, String surname, String email, String password, String sex, int age, BigDecimal money) {
+    public Client(long id, String name, String surname, String email, String password, String sex, int age, BigDecimal money) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -43,11 +47,11 @@ public class Client {
         this.money = money;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -105,5 +109,13 @@ public class Client {
 
     public void setMoney(BigDecimal money) {
         this.money = money;
+    }
+
+    public List<Order> getOrderList() {
+        return orderList;
+    }
+
+    public void setOrderList(List<Order> orderList) {
+        this.orderList = orderList;
     }
 }

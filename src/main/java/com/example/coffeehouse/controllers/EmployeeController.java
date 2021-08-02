@@ -3,7 +3,6 @@ package com.example.coffeehouse.controllers;
 import com.example.coffeehouse.models.constkits.AuthResult;
 import com.example.coffeehouse.services.EmployeeService;
 import com.example.coffeehouse.services.OrderService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,14 +12,17 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class EmployeeController {
 
-    @Autowired
-    private HttpSession httpSession;
+    private final HttpSession httpSession;
 
-    @Autowired
-    EmployeeService employeeService;
+    private final EmployeeService employeeService;
 
-    @Autowired
-    OrderService orderService;
+    private final OrderService orderService;
+
+    public EmployeeController(HttpSession httpSession, EmployeeService employeeService, OrderService orderService) {
+        this.httpSession = httpSession;
+        this.employeeService = employeeService;
+        this.orderService = orderService;
+    }
 
     @GetMapping("/employees/{id}")
     public String toEmployeePage(@PathVariable int id, Model model){

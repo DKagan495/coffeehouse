@@ -2,8 +2,7 @@ package com.example.coffeehouse.controllers;
 
 import com.example.coffeehouse.models.constkits.AuthResult;
 import com.example.coffeehouse.services.ClientService;
-import com.example.coffeehouse.services.OrderService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.coffeehouse.services.MoneyTransferService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,14 +11,19 @@ import java.math.BigDecimal;
 
 @Controller
 public class ClientController {
-    @Autowired
-    private HttpSession httpSession;
 
-    @Autowired
-    ClientService clientService;
+    private final HttpSession httpSession;
 
-    @Autowired
-    OrderService orderService;
+    private final ClientService clientService;
+
+    private final MoneyTransferService moneyTransferService;
+
+    public ClientController(HttpSession httpSession, ClientService clientService, MoneyTransferService moneyTransferService) {
+        this.httpSession = httpSession;
+        this.clientService = clientService;
+        this.moneyTransferService = moneyTransferService;
+    }
+
 
     @GetMapping("/clients/{id}")
     public String toClientPage(@PathVariable int id, Model model){
@@ -41,7 +45,6 @@ public class ClientController {
     public String getClientList(Model model){
         if(httpSession.getAttribute("AUTHORIZATION_RESULT_CLIENT") != AuthResult.VALID && httpSession.getAttribute("AUTHORIZATION_RESULT_EMPLOYEE") != AuthResult.VALID)
             return "redirect:/auth";
-        System.out.println(clientService.toClientList().get(1).getName());
         model.addAttribute("clients", clientService.toClientList());
         return "clientlist";
     }
@@ -55,7 +58,7 @@ public class ClientController {
 
     @PatchMapping("/getmoney")
     public String getMoneyReq(@RequestParam BigDecimal money){
-        clientService.moneyToCurrnetClient(money);
+        moneyTransferService.moneyToCurrentClient((long)httpSession.getAttribute("USER_ID"), money);
         return "redirect:/me";
     }
 
@@ -63,32 +66,33 @@ public class ClientController {
     public String getUpdateGeneralsForm(Model model){
         if(httpSession.getAttribute("AUTHORIZATION_RESULT_CLIENT") != AuthResult.VALID)
             return "redirect:/auth";
-        model.addAttribute("client", clientService.toClientPage((int)httpSession.getAttribute("USER_ID")));
+        model.addAttribute("client", clientService.toClientPage((long)httpSession.getAttribute("USER_ID")));
         return "editpage";
     }
 
     @PatchMapping("/edit")
     public String saveUpdGeneralsChanges(@RequestParam String name, @RequestParam String surname, @RequestParam int age, @RequestParam String sex){
-
-        clientService.updateClientGeneralInfo(name, surname, age, sex);
+        clientService.updateClientGeneralInfo((long)httpSession.getAttribute("USER_ID"), name, surname, age, sex);
         return "redirect:/me";
     }
 
     @GetMapping("/edit/log")
     public String getUpdateLogInParamsForm(Model model){
-        model.addAttribute("client", clientService.toClientPage((int)httpSession.getAttribute("USER_ID")));
+        if(httpSession.getAttribute("AUTHORIZATION_RESULT_CLIENT") != AuthResult.VALID)
+            return "redirect:/auth";
+        model.addAttribute("client", clientService.toClientPage((long)httpSession.getAttribute("USER_ID")));
         return "editlogform";
     }
 
     @PatchMapping("/edit/log")
     public String saveUpdLogInChanges(@RequestParam String email, @RequestParam String password){
-        clientService.updateClientLogInInfo(email, password);
+        clientService.updateClientLogInInfo((long)httpSession.getAttribute("USER_ID"), email, password);
         return "redirect:/me";
     }
     @DeleteMapping("/delete")
     public String deleteUser(){
-        orderService.deleteClientOrders((int) httpSession.getAttribute("USER_ID"));
-        clientService.deleteCurrentUserAccount();
+        clientService.deleteCurrentUserAccount((long)httpSession.getAttribute("USER_ID"));
+        httpSession.invalidate();
         return "redirect:/auth";
     }
 }

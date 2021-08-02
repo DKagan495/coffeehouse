@@ -4,9 +4,58 @@
     <meta charset="UTF-8">
     <title>Clients</title>
 </head>
+<style>
+    .sidebar{
+        font-family: "Bradley Hand ITC";
+        font-size: 45px;
+        font-weight: bold;
+        color: whitesmoke;
+    }
+    body{
+        background-image: url("https://www.brampton.ca/EN/Business/BEC/whatsNew/PublishingImages/10000-forstory.jpg");
+    }
+    a{
+        text-decoration: none;
+        color: whitesmoke;
+    }
+    a:hover{
+        font-size: 57px;
+        color: forestgreen;
+    }
+    .clients{
+        font-family: "Calibri";
+        font-size: 45px;
+        text-align: center;
+        width: 500px;
+        height: auto;
+        margin: 0 auto;
+        backdrop-filter: blur(12px);
+        color: whitesmoke;
+        border: 3px solid;
+        border-radius: 19px;
+    }
+</style>
 <body>
-<div th:each="client : ${clients}">
-  <a th:href="@{'/clients/' + ${client.getId}}" th:text="${client.getName} + ' ' + ${client.getSurname}">client</a>
-</div>
+<nav>
+    <div class="sidebar" style="float: left" th:if="${#httpSession.getAttribute('USER_ROLE') == 'client'}">
+        <a th:href="@{/me}">My page</a><br/>
+        <a th:href="@{/getcoffee}">Get coffee</a><br/>
+        <a th:href="@{/myorders}">My orders</a><br/>
+        <p style="color: forestgreen">Our clients</p>
+        <a th:href="@{/myorders/complete}">Complete orders</a><br/>
+        <a th:href="@{/myorders/taken}">Taken orders</a><br/>
+        <a th:href="@{/getmoney}">Make a deposit</a><br/>
+        <a th:href="@{/edit}">Account settings</a><br/>
+        <a th:href="@{/logout}">Log Out</a><br/>
+        <form th:method="DELETE" th:action="@{/delete}">
+            <input type="submit" value="Delete account">
+        </form>
+    </div>
+    <div class="clients">
+<div align="center" th:each="client : ${clients}">
+  <a th:href="@{'/clients/' + ${client.getId}}" th:text="${client.getName} + ' ' + ${client.getSurname}">client</a><br/>
+</div><br/>
+    </div>
+</nav>
 </body>
 </html>

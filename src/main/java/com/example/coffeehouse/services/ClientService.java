@@ -2,49 +2,50 @@ package com.example.coffeehouse.services;
 
 import com.example.coffeehouse.models.Client;
 import com.example.coffeehouse.repositories.ClientCrudRepostirory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 import java.util.List;
 
 @Service
+@Transactional
 public class ClientService {
 
-    @Autowired
-    ClientCrudRepostirory clientCrudRepostirory;
+    private final ClientCrudRepostirory clientCrudRepostirory;
 
-    @Autowired
-    HttpSession httpSession;
+    private final OrderService orderService;
 
-    @Transactional
-    public Client toClientPage(int id){
+    public ClientService(ClientCrudRepostirory clientCrudRepostirory, OrderService orderService) {
+        this.clientCrudRepostirory = clientCrudRepostirory;
+        this.orderService = orderService;
+    }
+
+    public Client toClientPage(long id){
        return clientCrudRepostirory.findById(id);
     }
-    @Transactional
+
     public List<Client> toClientList(){
         return (List<Client>) clientCrudRepostirory.findAll();
     }
 
-    @Transactional
-    public void moneyToCurrnetClient(BigDecimal money){
-        clientCrudRepostirory.updMoney((int)httpSession.getAttribute("USER_ID"), money);
-    }
-    @Transactional
-    public void updateClientGeneralInfo(String name, String surname, int age, String sex){
-        clientCrudRepostirory.updClientGeneralInfo((int) httpSession.getAttribute("USER_ID"), name, surname, age, sex);
+    @Transactional(propagation = Propagation.MANDATORY, isolation = Isolation.SERIALIZABLE)
+    public void minusCurrnetClientMoney(long id, BigDecimal money){
+        clientCrudRepostirory.updMoney(id, new BigDecimal(0).subtract(money));
     }
 
-    @Transactional
-    public void updateClientLogInInfo(String email, String password){
-        clientCrudRepostirory.updClientLogInInfo((int) httpSession.getAttribute("USER_ID"), email, password);
+    public void updateClientGeneralInfo(long id, String name, String surname, int age, String sex){
+        clientCrudRepostirory.updClientGeneralInfo(id, name, surname, age, sex);
     }
 
-    @Transactional
-    public void deleteCurrentUserAccount(){
-        clientCrudRepostirory.deleteById((int) httpSession.getAttribute("USER_ID"));
-        httpSession.invalidate();
+    public void updateClientLogInInfo(long id, String email, String password){
+        clientCrudRepostirory.updClientLogInInfo(id, email, password);
+    }
+
+    public void deleteCurrentUserAccount(long id){
+        orderService.deleteClientOrders(id);
+        clientCrudRepostirory.deleteById(id);
     }
 }
